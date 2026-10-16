@@ -35,6 +35,29 @@ def parse_json(body):
     return json.loads(body, parse_constant=_reject_constant, object_pairs_hook=_unique_object)
 
 
+class LocalHandler(BaseHTTPRequestHandler):
+    """The CLI-only API rejects browser origins and DNS-rebinding Host values.
+
+    This is a browser boundary, not authentication against local programs.
+    """
+    def parse_request(self):
+        if not super().parse_request():
+            return False
+        hosts = self.headers.get_all("Host",[])
+        port = self.server.server_port
+        allowed = {f"127.0.0.1:{port}",f"localhost:{port}"}
+        if port==80:
+            allowed.update({"127.0.0.1","localhost"})
+        if len(hosts)!=1 or hosts[0].strip().lower() not in allowed:
+            self.send_error(400,"a matching loopback Host is required")
+            return False
+        if (self.headers.get_all("Origin") is not None
+            or self.headers.get("Sec-Fetch-Site","none").lower()!="none"):
+            self.send_error(403,"browser-origin requests are not supported")
+            return False
+        return True
+
+
 class Server(HTTPServer):
     allow_reuse_address = True
     request_queue_size = 32
@@ -86,23 +109,30 @@ class Relay:
         self.worker_error = None
         relay = self
 
-        class Handler(BaseHTTPRequestHandler):
+        class Handler(LocalHandler):
             def log_message(self, *args):
                 pass
 
             def reply(self, code, value):
                 body = canonical(value)
-                self.send_response(code)
-                self.send_header("Content-Type","application/json")
-                self.send_header("Content-Length",str(len(body)))
-                self.send_header("Connection","close")
-                self.end_headers()
                 try:
+                    self.send_response(code)
+                    self.send_header("Content-Type","application/json")
+                    self.send_header("Content-Length",str(len(body)))
+                    self.send_header("Connection","close")
+                    self.end_headers()
                     self.wfile.write(body)
                 except OSError:
                     pass  # Committed submission can outlive a disconnected caller.
 
             def do_GET(self):
+                try:
+                    self.get_resource()
+                except (sqlite3.Error,OSError):
+                    relay.metrics["storage_errors"] += 1
+                    self.reply(503,{"error":"storage unavailable; inspect event state before retry"})
+
+            def get_resource(self):
                 if self.path == "/health":
                     return self.reply(503 if relay.worker_error else 200, {"ok":relay.worker_error is None})
                 if self.path == "/v1/stats":
@@ -116,7 +146,11 @@ class Relay:
 
             def do_POST(self):
                 if self.path.startswith("/v1/requeue/"):
-                    ok = relay.store.requeue(unquote(self.path[len("/v1/requeue/"):]))
+                    try:
+                        ok = relay.store.requeue(unquote(self.path[len("/v1/requeue/"):]))
+                    except (sqlite3.Error,OSError):
+                        relay.metrics["storage_errors"] += 1
+                        return self.reply(503,{"error":"storage unavailable; inspect event state before retry"})
                     relay.wake.set()
                     return self.reply(200 if ok else 409,{"requeued":ok})
                 if self.path != "/v1/events":

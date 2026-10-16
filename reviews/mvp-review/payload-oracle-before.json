@@ -1,0 +1,34 @@
+{
+  "source": {
+    "sha256": "e66373d77c71873955418d5f48a0f9b3d80856fe349fb9fd6271d9e9a4d9a8c1",
+    "files": {
+      "pyproject.toml": "5351d82a6e1e23cd373d55a3907655191444a08fafdab3b53e4326688ad50dc3",
+      "relay/__init__.py": "47999de61a17b1edc77541a4fe63858e08d8574d431c37095f30a875a2cad765",
+      "relay/__main__.py": "c496dc9b591a9e51e2f7b966ed5e77da5479a49653f8c03db8e97d84932369ae",
+      "relay/httpio.py": "a7c023b123e6dab793ca26e977e9775b444aabb764108e52c8727c351f12ae49",
+      "relay/service.py": "df6a47c836c16c2fcb7613b4233e52992deae4098e7ae3ac34276590337b9735",
+      "relay/store.py": "4cbe3e82f7883f332921a7f63b4e718983c4b711511eac9db43e3144a89a127d",
+      "requirements-dev.txt": "b6c8d86768d07e1dae4fb734c2e93997445a318d43290b307bfc1c800a0b1e52",
+      "tests/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "tests/support.py": "22bf682646a06999dde0193c672e6169b3219996049c6cf4e889d799f9b37d44",
+      "tests/test_relay.py": "2cbacf159d997a7b39f5bdcc7128f3ab807aec86fdcd7b223ea5b5d6c88f5f97",
+      "tests/test_reports.py": "ec52fe5838182955895d8b6db745b4c931267facd08adf5d8be0bf29976351bb",
+      "tests/test_review.py": "ac60444ca788d5cc67b1eff6cc56ba21aef84ba679cdfba72f10e34d863559b3",
+      "tests/test_validation.py": "6fe81afe1524702690ef4f7420496a7dfb9db6a539581e6a7b011f33f878caa4",
+      "tests/validation_child.py": "8cd29272c635156f7b4afbcf03ab5fd8dc060d1449395949b0948540f18b7d9d",
+      "tools/__init__.py": "625aec0086a26c27c93501f12c89d50167eaae272039ad596015c3a381977a3e",
+      "tools/benchmark.py": "6dc0f6e4b4c24985a16682215ce88d3d2d8dfdbeee0d7992f9318022fcbe0d09",
+      "tools/check_report.py": "7a3f7a0374c18defb8af729440ad34298fc0cab57410cd8ddad895131332e584",
+      "tools/check_validation.py": "d7b25ecfe842a249c6eb345888ca083891d99cee14173d225def9120afa09f1d",
+      "tools/evidence.py": "05e3c61e2547cd737c22dadea9343a9a5fead9607c0027b9385f9d171a317b51",
+      "tools/mutation_check.py": "54fb5c9878132400cd617a01060d9a2378bf342aa4a0ca3a65bf6f727e17c0c9",
+      "tools/receiver.py": "e5831a515546325ed3c6a9a52101869d3da9fc699f166cf24873e1024f9ddb87",
+      "tools/test_suite.py": "82d5a302cf865e30d645dfc48f5a0bf7850537c0693a738a777de3d7a320814e",
+      "tools/validate.py": "ab9b00e8d629802f217bff14315207ff207b6435cafc5e2494d973608a238653"
+    }
+  },
+  "mutation": "drop b field in production canonical serializer",
+  "selected_test": "tests.test_relay.NetworkTests.test_canonical_delivery_and_duplicate_conflict",
+  "exit_code": 0,
+  "missed": true
+}

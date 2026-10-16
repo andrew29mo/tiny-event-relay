@@ -3,6 +3,7 @@ import socket
 import subprocess
 import sys
 import time
+import psutil
 from pathlib import Path
 
 from relay.httpio import json_request
@@ -34,6 +35,7 @@ class Child:
         self.log = open(log_path,"ab")
         self.process = subprocess.Popen([sys.executable,"-m",*args],cwd=ROOT,stdout=self.log,stderr=self.log,
                                         start_new_session=True)
+        self.created = psutil.Process(self.process.pid).create_time()
 
     def stop(self,kill=False):
         import signal
@@ -58,6 +60,7 @@ class Stack:
         self.url = f"http://127.0.0.1:{self.relay_port}"
         self.extra = list(extra)
         self.sink,self.relay = None,None
+        self.relay_history = []
 
     def start_sink(self,delay=0):
         self.sink = Child(["tools.receiver","--db",str(self.directory/"sink.sqlite"),"--port",str(self.sink_port),"--delay",str(delay)],self.directory/"sink.log")
@@ -67,6 +70,7 @@ class Stack:
         self.relay_args = ["relay","serve","--data-dir",str(self.directory/"queue"),"--upstream",self.sink_url+"/events",
                            "--port",str(self.relay_port),"--timeout","0.3","--retry-base","0.05","--retry-cap","0.2",*self.extra]
         self.relay = Child(self.relay_args,self.directory/"relay.log")
+        self.relay_history.append({"pid":self.relay.process.pid,"created":self.relay.created})
         wait_for(lambda: self.relay.process.poll() is None and json_request(self.url+"/health")[0]==200)
 
     def start(self):

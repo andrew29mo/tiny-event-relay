@@ -52,6 +52,8 @@ Stop the receiver, submit more events, and restart it using the same database. P
 
 Both services bind to `127.0.0.1`. Do not expose the demo receiver or relay directly to an untrusted network. Its fault-control endpoint is intentionally unsafe for production exposure.
 
+This is a CLI/local-program API: matching loopback Host is required; browser Origin and cross-site Fetch Metadata requests are rejected. These checks are not authentication against other local programs. Browser frontends and arbitrary reverse-proxy Host values are outside the MVP.
+
 ## Reliability contract
 
 - New submission: **202 after SQLite COMMIT**, using WAL and FULL synchronization; fullfsync/checkpoint_fullfsync are also requested. This acknowledges local persistence, not downstream delivery.
@@ -76,9 +78,9 @@ Defaults: 1,000 unresolved events, 8 MiB unresolved payload, 64 KiB/event, 64 Mi
 
 Use an accurate execution label on other hosts/VMs. The tools do not automatically establish whether the host is virtualized. The retained run below was performed directly on the native macOS host, not in Colima or a container.
 
-The live process tests cover durable acceptance, actual disconnected listeners, SIGKILL/restart, a crash after receiver commit, lost acknowledgments, timeout recovery, duplicate/conflicting IDs, count/payload/disk admission limits, real SQLite page exhaustion, stale claim tokens, permanent failure/requeue and partial-request shutdown. Supplemental fault injection checks rollback on a commit error. Report tests use **synthetic fixtures for arithmetic and tamper detection only**, not for service correctness.
+The live process tests cover durable acceptance, actual disconnected listeners, SIGKILL/restart, a crash after receiver commit, lost acknowledgments, timeout recovery, duplicate/conflicting IDs, count/payload/disk admission limits, real SQLite page exhaustion, stale claim tokens, permanent failure/requeue and partial-request shutdown. Supplemental fault injection checks rollback on a commit error. Expected benchmark bytes come directly from the standard JSON contract, without invoking production serialization; the live delivery test also independently decodes the receiver’s stored payload. Report tests use **synthetic fixtures for arithmetic and tamper detection only**, not for service correctness.
 
-Four isolated source mutations must be detected as assertion failures: bypassing count quota, ignoring ID conflicts, accepting stale claim tokens, and removing receiver deduplication. A timeout/import/setup error does not count as successful mutation detection. These selected mutations are targeted evidence, not exhaustive proof.
+Five isolated source mutations must be detected as assertion failures: payload field loss, bypassing count quota, ignoring ID conflicts, accepting stale claim tokens, and removing receiver deduplication. A timeout/import/setup error does not count as successful mutation detection. These selected mutations are targeted evidence, not exhaustive proof.
 
 Retained evidence:
 
@@ -92,25 +94,25 @@ Verify the current source and recompute metrics/HTML:
 
 ```sh
 .venv/bin/python -m tools.check_report results/native-macos/benchmark
+.venv/bin/python -m tools.check_validation results/native-macos
 ```
 
 The source manifest binds all `relay`, `tools` and `tests` Python files, `pyproject.toml` and development requirements. README/CI metadata edits do not change this runtime/test manifest. It is a consistency hash, not a signed attestation.
 
-Retained native macOS run: **28/28 tests**, **4/4 targeted mutations detected**, and **1,080/1,080 accepted events with matching unique committed effects** across 18 trials. No measured trial was omitted from the aggregate.
+Retained reviewed native macOS run: **43/43 tests**, **5/5 targeted mutations detected**, and **1,080/1,080 accepted events with matching unique committed effects** across 18 trials. No trial from this run was omitted from the aggregate.
 
-Each cell below is the median of three trial summaries; p95 values are medians of per-trial p95s, not pooled percentiles. Blob size excludes the JSON envelope.
+Each cell is the median of three trial summaries; p95 values are medians of per-trial p95s, not pooled percentiles. Blob size excludes the JSON envelope. RSS/disk columns are sampled peaks within the declared measurement window.
 
-| Scenario | Blob bytes | Accept p95 ms | Commit p95 ms | Unique effects/s | Relay peak RSS MiB | DB+WAL+SHM peak MiB | Drain s |
+| Scenario | Blob bytes | Accept p95 ms | Commit p95 ms | Unique effects/s | Relay RSS MiB | DB+WAL+SHM MiB | Drain s |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| normal | 256 | 16.90 | 33.93 | 15.13 | 25.59 | 0.082 | — |
-| normal | 16,384 | 16.02 | 33.24 | 15.12 | 25.86 | 0.133 | — |
-| outage | 256 | 32.29 | 5276.95 | 9.96 | 25.64 | 0.098 | 1.86 |
-| outage | 16,384 | 29.75 | 5578.59 | 9.84 | 27.03 | 1.071 | 1.92 |
-| restart | 256 | 30.25 | 5433.31 | 9.81 | 25.55 | 0.102 | 1.83 |
-| restart | 16,384 | 33.84 | 5510.21 | 9.61 | 27.06 | 1.071 | 1.95 |
+| normal | 256 | 15.63 | 31.84 | 15.12 | 25.50 | 0.086 | — |
+| normal | 16,384 | 15.48 | 32.50 | 15.10 | 25.53 | 0.133 | — |
+| outage | 256 | 23.43 | 5295.67 | 9.95 | 25.64 | 0.098 | 1.86 |
+| outage | 16,384 | 30.13 | 5159.22 | 9.70 | 27.02 | 1.071 | 2.01 |
+| restart | 256 | 26.85 | 5444.99 | 9.58 | 25.48 | 0.094 | 1.96 |
+| restart | 16,384 | 26.27 | 5211.82 | 9.69 | 26.86 | 1.071 | 1.89 |
 
-Across all trials: maximum observed issue lag **15.79 ms**; maximum resource-sample gap **18.49 ms**. Offline/restart end-to-end latency includes the intentional outage and queue wait. These scenarios demonstrate recovery, not a speed advantage over the normal scenario.
-
+Across all trials: maximum issue lag **10.46 ms**; maximum sample gap **19.54 ms**. Offline/restart end-to-end latency includes the intentional outage and queue wait. These scenarios demonstrate recovery, not a speed advantage over normal operation. Scheduled-arrival p95s and after-drain file sizes are also retained in JSON.
 
 ## Measurement boundaries
 
@@ -120,11 +122,13 @@ The receiver has a configured 3 ms response delay, including after recovery. Thi
 
 For bounded experiments, the formal relay CLI uses **0.3 s attempt timeout, 0.05 s retry base and 0.2 s retry cap**, rather than the service defaults. Other queue/receipt limits remain at defaults. These invocations come from `tests/support.py` and are bound by the source manifest; retries can affect drain timing. The measured data directory is temporary local storage on this host; filesystem type, hardware write traffic and storage-device durability are not separately established.
 
-Acceptance latency measures invocation to HTTP acceptance response. End-to-end latency measures invocation to the receiver's committed unique business effect, which may precede the relay's receipt of the receiver acknowledgment. Cross-process timestamps use the local wall clock with a drift check; scheduled-arrival latency can be reconstructed from retained offsets. Throughput counts unique business effects over first invocation to last effect, including outage/recovery tails. It is **not maximum service capacity**; no nondurable baseline or speedup claim is made.
+Acceptance latency measures invocation to HTTP acceptance response. End-to-end latency measures invocation to the receiver's committed unique business effect, which may precede the relay's receipt of the receiver acknowledgment. Cross-process completion times use the same host-wide monotonic clock (Python 3.12 on the supported macOS/Linux platforms); wall timestamps are diagnostic only. Invocation-based and scheduled-arrival p95s are both retained in JSON. Throughput counts unique business effects over first invocation to last effect, including outage/recovery tails. It is **not maximum service capacity**; no nondurable baseline or speedup claim is made.
 
 The receiver records commit-completion observation times in memory immediately after COMMIT returns. They are available for these fresh receiver trials; historical completion observations are unavailable after a receiver restart. The business-effect ledger and dedup receipts themselves are durable. The earlier transaction-record timestamp is retained separately and is not used as the end-to-end completion boundary.
 
-RSS and DB/WAL/SHM file lengths are sampled nominally every 10 ms. RSS covers only the relay PID, across both lifetimes for restart trials; it excludes client/receiver/kernel/filesystem cache. File sizes are apparent lengths, not allocated blocks or bytes written. Short peaks can be missed; maximum observed sample gap is reported. Disk snapshots and raw samples are included, rather than estimating memory from payload size.
+RSS and DB/WAL/SHM file lengths are sampled nominally every 10 ms. Sampling exceptions, gaps over 100 ms, incomplete window coverage or missing positive RSS samples for any relay lifetime fail validation. PID and process-creation time bind each RSS observation to the intended child. RSS covers only the relay PID, across both lifetimes for restart trials; it excludes client/receiver/kernel/filesystem cache. File sizes are apparent lengths, not allocated blocks or bytes written. Short peaks can still be missed; maximum observed sample gap is reported. The after-drain database-family size is retained separately. Disk snapshots and raw samples are included, rather than estimating memory from payload size.
+
+The first process starts before the measurement window, so its initial startup peak is not measured. Restart startup falls inside that scenario's window. These are sampled peaks during the declared experiment, not lifetime maximum RSS or total deployment memory.
 
 Only this native host was measured. The CI matrix targets Linux/macOS correctness, but remote status must be checked separately; configuration is not evidence that CI ran. No Linux/VM performance, Internet load, power-cut, disk-device failure, long-duration endurance or confidence intervals are claimed. Results depend heavily on SQLite synchronization and storage. See [security boundaries](SECURITY.md).
 

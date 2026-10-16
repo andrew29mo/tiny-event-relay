@@ -11,6 +11,9 @@ from .evidence import ROOT,source_manifest,sanitize
 
 
 CASES = [
+    ("payload-loss", "relay/service.py", [("def canonical(value):\n    return json.dumps",
+      "def canonical(value):\n    if isinstance(value,dict) and 'b' in value:\n        value={k:v for k,v in value.items() if k!='b'}\n    return json.dumps")],
+     "tests.test_relay.NetworkTests.test_canonical_delivery_and_duplicate_conflict"),
     ("count-quota", "relay/store.py", [("if count >= self.max_events or size + len(payload) > self.max_payload_bytes:","if False:")],
      "tests.test_relay.NetworkTests.test_count_quota_never_evicts_unresolved"),
     ("conflicting-id", "relay/store.py", [("if row[\"digest\"] != digest:","if False:")],

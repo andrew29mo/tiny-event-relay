@@ -20,7 +20,7 @@ def owned(tag):
     result = []
     for proc in psutil.process_iter(["pid"]):
         try:
-            if proc.environ().get("TINY_EVENT_VALIDATION_ID")==tag:
+            if tag in proc.environ().get("TINY_EVENT_VALIDATION_OWNERS","").split(":"):
                 result.append(proc)
         except (psutil.NoSuchProcess,psutil.AccessDenied):
             pass
@@ -29,37 +29,54 @@ def owned(tag):
 
 def run_step(args,output,timeout):
     tag = uuid.uuid4().hex
-    env = {**os.environ,"TINY_EVENT_VALIDATION_ID":tag}
+    chain = os.environ.get("TINY_EVENT_VALIDATION_OWNERS","")
+    env = {**os.environ,"TINY_EVENT_VALIDATION_OWNERS":chain+":"+tag}
     start = time.monotonic()
     child = subprocess.Popen([sys.executable,"-m",*args],cwd=ROOT,env=env,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,
-                             start_new_session=True,text=True)
-    timed_out = False
+                             start_new_session=True,text=True,errors="replace")
+    timed_out,interrupted = False,False
+    text = ""
+    reclaimed = set()
+    def cleanup():
+        for _ in range(2):
+            processes = owned(tag)
+            for proc in processes:
+                try:
+                    reclaimed.add((proc.pid,proc.create_time()))
+                    proc.kill()
+                except psutil.NoSuchProcess:
+                    pass
+            psutil.wait_procs(processes,timeout=2)
+            if not owned(tag):
+                break
     try:
         text,_ = child.communicate(timeout=timeout)
     except subprocess.TimeoutExpired:
         timed_out = True
-        for proc in owned(tag):
-            try:
-                proc.kill()
-            except psutil.NoSuchProcess:
-                pass
-        child.kill()
-        text,_ = child.communicate(timeout=5)
-    leftovers = owned(tag)
-    for proc in leftovers:
-        try:
-            proc.kill()
-        except psutil.NoSuchProcess:
-            pass
-    psutil.wait_procs(leftovers,timeout=3)
+    except (KeyboardInterrupt,SystemExit):
+        interrupted = True
+    finally:
+        # Also reclaim new-session/reparented children after successful parent exit.
+        # Nested validators inherit the owner chain, so an outer timeout can reclaim them.
+        cleanup()
+        if child.poll() is None:
+            child.kill()
+        remaining_text,_ = child.communicate(timeout=5)
+        if not text:
+            text = remaining_text
+    complete = not owned(tag)
     log = sanitize(text)
     output.write_text(log)
-    return {"module_args":args,"exit_code":child.returncode,"timed_out":timed_out,"cleanup_required":len(leftovers),
+    return {"module_args":args,"exit_code":child.returncode,"timed_out":timed_out,"interrupted":interrupted,
+            "cleanup_required":len(reclaimed),"cleanup_complete":complete,
             "duration_s":time.monotonic()-start,"log_sha256":hashlib.sha256(log.encode()).hexdigest(),
-            "passed":not timed_out and not leftovers and child.returncode==0}
+            "passed":not timed_out and not interrupted and not reclaimed and complete and child.returncode==0}
 
 
 def main():
+    def interrupt(*_):
+        raise KeyboardInterrupt
+    signal.signal(signal.SIGTERM,interrupt)
     parser = argparse.ArgumentParser()
     parser.add_argument("--output",type=Path,default=Path("results/local/validation"))
     parser.add_argument("--execution-label",default="unspecified; operator must identify host or VM")
@@ -90,6 +107,8 @@ def main():
             raise RuntimeError("source changed during validation")
         receipt["status"] = "passed"
         save()
+        from .check_validation import check_validation
+        check_validation(args.output)
     except BaseException:
         receipt["status"] = "failed"
         save()

@@ -9,9 +9,7 @@ import signal
 import socket
 import sqlite3
 import time
-from http.server import BaseHTTPRequestHandler
-
-from relay.service import Server, canonical, parse_json
+from relay.service import Server, LocalHandler, canonical, parse_json
 
 
 class Receiver:
@@ -29,9 +27,10 @@ class Receiver:
         # Measurement-only observations taken AFTER the business transaction commits.
         # On receiver restart historical commit completion times are unavailable.
         self.commit_times = {}
+        self.commit_monotonic = {}
         sink = self
 
-        class Handler(BaseHTTPRequestHandler):
+        class Handler(LocalHandler):
             def log_message(self,*args):
                 pass
 
@@ -56,7 +55,8 @@ class Receiver:
                     rows = sink.db.execute("SELECT id,digest,applied FROM effects ORDER BY id").fetchall()
                     attempts = dict(sink.db.execute("SELECT id,n FROM attempts"))
                     return self.reply(200,{"effects":[{"id":r[0],"digest":r[1],"transaction_recorded":r[2],
-                                                       "committed":sink.commit_times.get(r[0])} for r in rows],"attempts":attempts})
+                                                       "committed":sink.commit_times.get(r[0]),
+                                                       "committed_monotonic":sink.commit_monotonic.get(r[0])} for r in rows],"attempts":attempts})
                 self.reply(404,{})
 
             def do_POST(self):
@@ -95,6 +95,7 @@ class Receiver:
                         sink.db.execute("INSERT INTO effects(id,digest,payload,applied) VALUES (?,?,?,?)",(event_id,digest,body,time.time()))
                     sink.db.execute("COMMIT")
                     if old is None:
+                        sink.commit_monotonic[event_id] = time.monotonic()
                         sink.commit_times[event_id] = time.time()
                 except BaseException:
                     if sink.db.in_transaction:

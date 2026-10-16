@@ -2,6 +2,8 @@
 
 Experimental, single-host software for trusted local producers and an operator-configured downstream. Both relay and demo receiver bind to `127.0.0.1`; neither offers authentication. Do not expose either port through a reverse proxy or on an untrusted network without authentication, TLS and a separate deployment review. `/control` on the demo receiver intentionally injects faults and is not a production endpoint.
 
+Both HTTP endpoints require one matching `127.0.0.1:<port>` or `localhost:<port>` Host, reject Origin headers and reject cross-site Fetch Metadata. This narrows browser-origin/DNS-rebinding access; it is not authentication against other local programs, which can choose their headers. Browser frontends/CORS and alternate proxy Host values are outside this CLI-only MVP.
+
 Only the operator sets the downstream URL. Events cannot select a destination. The relay does not follow redirects. HTTPS uses Python's default certificate verification; HTTP is plaintext. Do not put credentials in the URL; authenticated upstream headers are outside this MVP. Restrict the data directory to the service account and use local storage with working file locks. Network filesystems, shared data directories and hostile local users are outside the supported boundary.
 
 Payloads persist in plaintext until delivery. Delivered payloads are cleared logically, not securely erased: SQLite free pages, WAL, snapshots and backups may retain bytes. Receipt hashes, IDs and timestamps remain until retention pruning. IDs are not secrets. Process counters reset on restart.

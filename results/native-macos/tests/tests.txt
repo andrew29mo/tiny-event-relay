@@ -26,8 +26,23 @@ test_reject_failed_run_or_changed_source (test_reports.ReportTests.test_reject_f
 test_reject_missing_trial (test_reports.ReportTests.test_reject_missing_trial) ... ok
 test_reject_wrong_payload_receipt (test_reports.ReportTests.test_reject_wrong_payload_receipt) ... ok
 test_require_post_commit_measurement (test_reports.ReportTests.test_require_post_commit_measurement) ... ok
+test_acceptance_waits_for_actual_database_transaction (test_review.LiveReviewTests.test_acceptance_waits_for_actual_database_transaction) ... ok
+test_browser_origin_and_foreign_host_are_rejected (test_review.LiveReviewTests.test_browser_origin_and_foreign_host_are_rejected) ... ok
+test_concurrent_duplicate_and_capacity_admission (test_review.LiveReviewTests.test_concurrent_duplicate_and_capacity_admission) ... ok
+test_requeue_storage_failure_is_a_structured_503 (test_review.LiveReviewTests.test_requeue_storage_failure_is_a_structured_503) ... ok
+test_storage_failure_through_real_http_never_acknowledges (test_review.LiveReviewTests.test_storage_failure_through_real_http_never_acknowledges) ... ok
+test_unresolved_event_is_not_pruned_by_receipt_ttl (test_review.LiveReviewTests.test_unresolved_event_is_not_pruned_by_receipt_ttl) ... ok
+test_empty_passed_report_is_rejected (test_review.MeasurementReviewTests.test_empty_passed_report_is_rejected) ... ok
+test_missing_restart_rss_lifetime_is_rejected (test_review.MeasurementReviewTests.test_missing_restart_rss_lifetime_is_rejected) ... ok
+test_partial_sampler_failure_cannot_pass (test_review.MeasurementReviewTests.test_partial_sampler_failure_cannot_pass) ... ok
+test_truncated_resource_samples_are_rejected (test_review.MeasurementReviewTests.test_truncated_resource_samples_are_rejected) ... ok
+test_wall_clock_change_does_not_change_monotonic_latency (test_review.MeasurementReviewTests.test_wall_clock_change_does_not_change_monotonic_latency) ... ok
+test_failed_command_cannot_pass (test_validation.ValidationTests.test_failed_command_cannot_pass) ... ok
+test_interrupt_cleans_owned_process_and_fails (test_validation.ValidationTests.test_interrupt_cleans_owned_process_and_fails) ... ok
+test_successful_parent_leaving_detached_child_is_failure (test_validation.ValidationTests.test_successful_parent_leaving_detached_child_is_failure) ... ok
+test_timeout_cannot_pass (test_validation.ValidationTests.test_timeout_cannot_pass) ... ok
 
 ----------------------------------------------------------------------
-Ran 28 tests in 15.806s
+Ran 43 tests in 20.027s
 
 OK

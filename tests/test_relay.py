@@ -39,6 +39,10 @@ class NetworkTests(unittest.TestCase):
         self.assertEqual(effects["attempts"],{"one":1})
         self.assertEqual(effects["effects"][0]["digest"],hashlib.sha256(canonical(payload)).hexdigest())
         self.assertGreaterEqual(effects["effects"][0]["committed"],effects["effects"][0]["transaction_recorded"])
+        # Independent contents oracle: do not let a shared canonical() bug hide field loss.
+        with sqlite3.connect(Path(self.temp.name)/"sink.sqlite") as db:
+            stored = db.execute("SELECT payload FROM effects WHERE id='one'").fetchone()[0]
+        self.assertEqual(json.loads(stored),payload)
 
     def test_real_disconnect_backlog_and_recovery(self):
         s = self.start()
@@ -218,7 +222,7 @@ class NetworkTests(unittest.TestCase):
     def test_shutdown_closes_partial_request_and_releases_lock(self):
         s = self.start()
         with socket.create_connection(("127.0.0.1",s.relay_port),timeout=2) as sock:
-            sock.sendall(b"POST /v1/events HTTP/1.0\r\nContent-Length: 100\r\n\r\nx")
+            sock.sendall(f"POST /v1/events HTTP/1.0\r\nHost: 127.0.0.1:{s.relay_port}\r\nContent-Length: 100\r\n\r\nx".encode())
             time.sleep(.05)
             started = time.monotonic()
             s.relay.stop()

@@ -14,6 +14,8 @@ One worker, fixed operator-configured HTTP(S) destination. No redirect following
 
 Each claim has a lease and random token. Only the current in-flight token can finish it. Expired leases become pending. Exclusive process ownership permits immediate recovery of any in-flight state at startup. This is a local file-lock design, not distributed fencing. The worker holds no database transaction while doing network I/O.
 
+Persisted due times, leases and retention use the host wall clock so they survive restarts. Large wall-clock changes can shift retry/retention timing; a reasonably maintained host clock is assumed. Monotonic benchmark timestamps remove wall-clock dependence from measured latency, not from these persistent scheduling policies.
+
 Delivery is **at least once while within the retry policy**, with unresolved/permanent failures visibly retained. It is not guaranteed eventual success. A receiver can commit and lose its response: the relay must retry. Stable `Idempotency-Key` plus receiver-side deduplication handles this ambiguity. The demo receiver atomically inserts a unique receipt and an append-only business-effect row in the same FULL-synchronous SQLite transaction; the business-effect table deliberately does not have a unique event-ID constraint. Arbitrary remote side effects outside such a transaction need their own idempotency mechanism.
 
 ## Bounded storage
@@ -27,6 +29,8 @@ Delivered payload is set NULL, and compact ID/digest receipts remain for at most
 The dead-letter listing returns the oldest 100 entries. No discard, payload edit, pagination, multi-destination, multi-worker or automatic vacuum is included. Resolve the downstream problem and explicitly requeue; unresolved failures intentionally keep occupying quota.
 
 ## Resources and shutdown
+
+HTTP clients must supply one matching loopback Host (with the bound port, except optional port 80). Origin-bearing and cross-site Fetch Metadata requests are rejected. These boundary errors use standard HTTP 400/403 error responses rather than API JSON. The relay and demo receiver share this CLI-only guard; trusted local programs remain unauthenticated. Management GET/requeue storage errors return structured 503 responses; a failed or lost requeue response requires inspecting the event state before retrying.
 
 The intake API is deliberately serial, with a bounded listen backlog and two-second per-request watchdog. It may reject/reset excess connections rather than return a structured overload response. Disk-full admission is an explicit 507. SIGTERM/INT stops intake, interrupts a partial request and lets the active bounded transfer finish or fail; remaining persisted work is recovered next start. A hostname lookup can outlive the network watchdog (see SECURITY.md). No process-level hard RSS limit is promised.
 

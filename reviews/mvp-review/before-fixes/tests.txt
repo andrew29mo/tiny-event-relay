@@ -1,0 +1,52 @@
+test_acceptance_waits_for_actual_database_transaction (tests.test_review.LiveReviewTests.test_acceptance_waits_for_actual_database_transaction) ... ok
+test_concurrent_duplicate_and_capacity_admission (tests.test_review.LiveReviewTests.test_concurrent_duplicate_and_capacity_admission) ... ok
+test_requeue_storage_failure_is_a_structured_503 (tests.test_review.LiveReviewTests.test_requeue_storage_failure_is_a_structured_503) ... ERROR
+test_storage_failure_through_real_http_never_acknowledges (tests.test_review.LiveReviewTests.test_storage_failure_through_real_http_never_acknowledges) ... ok
+test_unresolved_event_is_not_pruned_by_receipt_ttl (tests.test_review.LiveReviewTests.test_unresolved_event_is_not_pruned_by_receipt_ttl) ... ok
+test_empty_passed_report_is_rejected (tests.test_review.MeasurementReviewTests.test_empty_passed_report_is_rejected) ... FAIL
+test_partial_sampler_failure_cannot_pass (tests.test_review.MeasurementReviewTests.test_partial_sampler_failure_cannot_pass) ... FAIL
+
+======================================================================
+ERROR: test_requeue_storage_failure_is_a_structured_503 (tests.test_review.LiveReviewTests.test_requeue_storage_failure_is_a_structured_503)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repo>/tests/test_review.py", line 51, in test_requeue_storage_failure_is_a_structured_503
+    status,body = json_request(s.url+"/v1/requeue/dead","POST",{})
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repo>/relay/httpio.py", line 25, in json_request
+    status, headers, data = request(url, method, body, {"Content-Type":"application/json"},timeout)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repo>/relay/httpio.py", line 14, in request
+    response = connection.getresponse()
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<home>/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/client.py", line 1478, in getresponse
+    response.begin()
+  File "<home>/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/client.py", line 343, in begin
+    version, status, reason = self._read_status()
+                              ^^^^^^^^^^^^^^^^^^^
+  File "<home>/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/client.py", line 312, in _read_status
+    raise RemoteDisconnected("Remote end closed connection without"
+http.client.RemoteDisconnected: Remote end closed connection without response
+
+======================================================================
+FAIL: test_empty_passed_report_is_rejected (tests.test_review.MeasurementReviewTests.test_empty_passed_report_is_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repo>/tests/test_review.py", line 127, in test_empty_passed_report_is_rejected
+    with self.assertRaises(ValueError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_partial_sampler_failure_cannot_pass (tests.test_review.MeasurementReviewTests.test_partial_sampler_failure_cannot_pass)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repo>/tests/test_review.py", line 118, in test_partial_sampler_failure_cannot_pass
+    with self.assertRaisesRegex(AssertionError,"sampl"):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: AssertionError not raised
+
+----------------------------------------------------------------------
+Ran 7 tests in 3.432s
+
+FAILED (failures=2, errors=1)

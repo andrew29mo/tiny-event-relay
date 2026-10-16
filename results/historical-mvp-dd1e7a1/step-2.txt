@@ -1,0 +1,66 @@
+[
+  {
+    "name": "count-quota",
+    "file": "relay/store.py",
+    "replacements": [
+      [
+        "if count >= self.max_events or size + len(payload) > self.max_payload_bytes:",
+        "if False:"
+      ]
+    ],
+    "test": "tests.test_relay.NetworkTests.test_count_quota_never_evicts_unresolved",
+    "detected": true,
+    "exit_code": 1,
+    "failures": 1,
+    "errors": 0
+  },
+  {
+    "name": "conflicting-id",
+    "file": "relay/store.py",
+    "replacements": [
+      [
+        "if row[\"digest\"] != digest:",
+        "if False:"
+      ]
+    ],
+    "test": "tests.test_relay.NetworkTests.test_canonical_delivery_and_duplicate_conflict",
+    "detected": true,
+    "exit_code": 1,
+    "failures": 1,
+    "errors": 0
+  },
+  {
+    "name": "stale-token",
+    "file": "relay/store.py",
+    "replacements": [
+      [
+        "AND token=?\"\"\"",
+        "AND ? IS NOT NULL\"\"\""
+      ]
+    ],
+    "test": "tests.test_relay.StoreFaultTests.test_stale_claim_token_cannot_override_new_claim",
+    "detected": true,
+    "exit_code": 1,
+    "failures": 1,
+    "errors": 0
+  },
+  {
+    "name": "receiver-dedup",
+    "file": "tools/receiver.py",
+    "replacements": [
+      [
+        "if old is None:\n                        sink.db.execute(\"INSERT INTO receipts",
+        "if True:\n                        sink.db.execute(\"INSERT INTO receipts"
+      ],
+      [
+        "INSERT INTO receipts VALUES (?,?)",
+        "INSERT OR IGNORE INTO receipts VALUES (?,?)"
+      ]
+    ],
+    "test": "tests.test_relay.NetworkTests.test_lost_ack_retries_but_business_effect_once",
+    "detected": true,
+    "exit_code": 1,
+    "failures": 1,
+    "errors": 0
+  }
+]
