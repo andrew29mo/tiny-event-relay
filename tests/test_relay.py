@@ -281,3 +281,15 @@ class StoreFaultTests(unittest.TestCase):
 
 if __name__=="__main__":
     unittest.main()
+
+
+class DNSIndependentStartupTests(unittest.TestCase):
+    def test_loopback_server_startup_does_not_resolve_hostnames(self):
+        from unittest.mock import patch
+        from relay.service import Server,LocalHandler
+        # A resolver outage must not prevent the numeric loopback listener from binding.
+        with patch("socket.getfqdn",side_effect=AssertionError("unexpected startup DNS lookup")):
+            with Server(("127.0.0.1",0),LocalHandler) as server:
+                self.assertEqual(server.server_name,"127.0.0.1")
+                self.assertGreater(server.server_port,0)
+                self.assertEqual(server.server_address,("127.0.0.1",server.server_port))

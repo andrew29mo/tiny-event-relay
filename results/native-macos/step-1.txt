@@ -15,6 +15,7 @@ test_copy_error_also_removes_partial_copy (test_local.RetentionFailureTests.test
 test_failed_export_check_removes_partial_copy (test_local.RetentionFailureTests.test_failed_export_check_removes_partial_copy) ... ok
 test_snapshot_copies_exact_input_and_detects_later_edit (test_local.SnapshotTests.test_snapshot_copies_exact_input_and_detects_later_edit) ... ok
 test_snapshot_refuses_symlink_and_parent_escape (test_local.SnapshotTests.test_snapshot_refuses_symlink_and_parent_escape) ... ok
+test_loopback_server_startup_does_not_resolve_hostnames (test_relay.DNSIndependentStartupTests.test_loopback_server_startup_does_not_resolve_hostnames) ... ok
 test_429_delay_is_honored_up_to_cap (test_relay.NetworkTests.test_429_delay_is_honored_up_to_cap) ... ok
 test_bad_input_does_not_enter_queue (test_relay.NetworkTests.test_bad_input_does_not_enter_queue) ... ok
 test_canonical_delivery_and_duplicate_conflict (test_relay.NetworkTests.test_canonical_delivery_and_duplicate_conflict) ... ok
@@ -60,6 +61,6 @@ test_successful_parent_leaving_detached_child_is_failure (test_validation.Valida
 test_timeout_cannot_pass (test_validation.ValidationTests.test_timeout_cannot_pass) ... ok
 
 ----------------------------------------------------------------------
-Ran 60 tests in 20.862s
+Ran 61 tests in 19.898s
 
 OK

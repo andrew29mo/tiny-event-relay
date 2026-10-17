@@ -2,7 +2,7 @@
 
 ```sh
 ./tools/validate-local
-.venv/bin/python -m tools.check_local reviews/local-validation-public
+.venv/bin/python -m tools.check_local reviews/local-validation-startup
 ```
 
 The first command runs a new validation into ignored local storage; the second checks the already committed reviewed evidence. To export a new successful run, use a fresh retention directory, for example:
@@ -37,7 +37,7 @@ No environments, source build contexts, downloaded archives, VM disks, live spoo
 
 ## Interpretation
 
-The reviewed retained run executes **60 identical tests and five mutations per environment**, plus 36 trials / 2,160 matching committed effects in total. Native and Linux results are different environments, not an OS-performance comparison: SQLite versions differ (3.53.1 vs 3.40.1), visible host CPUs differ from the 4-vCPU guest, and storage/fsync/allocator accounting differs. Both use Python 3.12.14 and psutil 7.0.0. This host is ARM64; Intel assets are pinned but not exercised here.
+The reviewed retained run executes **61 identical tests and five mutations per environment**, plus 36 trials / 2,160 matching committed effects in total. Native and Linux results are different environments, not an OS-performance comparison: SQLite versions differ (3.53.1 vs 3.40.1), visible host CPUs differ from the 4-vCPU guest, and storage/fsync/allocator accounting differs. Both use Python 3.12.14 and psutil 7.0.0. This host is ARM64; Intel assets are pinned but not exercised here.
 
 RSS is the relay process's sampled resident memory during the experiment; Linux RSS is inside the guest/container and excludes host VM overhead. DB/WAL/SHM values are apparent file lengths, not filesystem allocation, bytes written or host VM-disk growth. The first process starts before measurement; restart startup is inside the window. Short peaks can be missed despite coverage/gap checks. VM configured RAM is not measured host VM RSS. Unrelated host load is uncontrolled.
 

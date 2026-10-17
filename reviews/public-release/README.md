@@ -4,16 +4,18 @@ Repository: [andrew29mo/tiny-event-relay](https://github.com/andrew29mo/tiny-eve
 
 ## Code, documents and evidence
 
-- GitHub recognizes MIT. Anonymous requests returned HTTP 200 for the repository, README, LICENSE and current combined local-validation receipt, with file bytes identical to the checkout. `anonymous-read.json` records the checked content hashes before this release-note commit; README subsequently gained this release-check link. The runtime/test snapshot is unaffected by that documentation addition.
-- Both environments use the same runtime/test source, complete test-ID list, payloads and planned arrivals. macOS and Colima Linux each passed 60 formal tests, five targeted mutations and 18 real trials / 1,080 matching per-trial event effects. No completed trial was omitted. Container removed, dedicated VM stopped.
-- Current evidence is under `../local-validation-public/`, with a duplicate native result under `../../results/native-macos/`. Tables were regenerated from current raw summaries; native and VM data remain separate. Guest RSS excludes host VM overhead, and disk measurements are apparent DB-family file lengths.
+- GitHub recognizes MIT. Initial-publication anonymous requests returned HTTP 200 for the repository, README, LICENSE and combined local-validation receipt, with file bytes identical to that checkout. `anonymous-read.json` preserves those initial-publication hashes. README and current evidence were subsequently updated for the startup fix; that historical anonymous-read receipt is not presented as a hash of the later README. Current public files are checked again after the final upload.
+- Both environments use the same runtime/test source, complete test-ID list, payloads and planned arrivals. macOS and Colima Linux each passed 61 formal tests, five targeted mutations and 18 real trials / 1,080 matching per-trial event effects. No completed trial was omitted. Container removed, dedicated VM stopped.
+- Current evidence is under `../local-validation-startup/`, with a duplicate native result under `../../results/native-macos/`. Tables were regenerated from current raw summaries; native and VM data remain separate. Guest RSS excludes host VM overhead, and disk measurements are apparent DB-family file lengths.
 - Licensing documents were decoupled from transient repository visibility. Historical MIT-adoption/review records remain explicitly historical; their old source-bound receipts were not relabeled as current.
 - Before visibility changed, 239 reachable historical blobs and 347 current candidate files were pattern-checked for personal absolute paths, common GitHub/AWS credentials and private-key headers; no matches were found. Environments, VM/toolchain files, databases, wheels, build output and personal guidance remain ignored. Pattern scanning is not an exhaustive secret audit.
 
 ```sh
-.venv/bin/python -m tools.check_local reviews/local-validation-public
+.venv/bin/python -m tools.check_local reviews/local-validation-startup
 .venv/bin/python -m tools.check_validation results/native-macos
 ```
+
+The hosted macOS startup follow-up removes an unnecessary reverse-DNS dependency from the formal loopback server. See [the diagnosis and red/green regression evidence](../public-startup-fix/README.md). The current 61-test records supersede the initial 60-test publication receipts; the failed hosted runs remain historical.
 
 ## Actual public security settings
 

@@ -1,0 +1,6 @@
+{
+  "exit_code": 0,
+  "probe": "Exact embedded macOS CI receiver-startup script, run locally before upload",
+  "dns_forbidden": true,
+  "formal_receiver_constructed": true
+}

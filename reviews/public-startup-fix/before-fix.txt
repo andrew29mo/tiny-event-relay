@@ -1,0 +1,28 @@
+test_loopback_server_startup_does_not_resolve_hostnames (tests.test_relay.DNSIndependentStartupTests.test_loopback_server_startup_does_not_resolve_hostnames) ... FAIL
+
+======================================================================
+FAIL: test_loopback_server_startup_does_not_resolve_hostnames (tests.test_relay.DNSIndependentStartupTests.test_loopback_server_startup_does_not_resolve_hostnames)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repo>/tests/test_relay.py", line 292, in test_loopback_server_startup_does_not_resolve_hostnames
+    with Server(("127.0.0.1",0),LocalHandler) as server:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<home>/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py", line 457, in __init__
+    self.server_bind()
+  File "<home>/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/server.py", line 142, in server_bind
+    self.server_name = socket.getfqdn(host)
+                       ^^^^^^^^^^^^^^^^^^^^
+  File "<home>/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<home>/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<home>/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/unittest/mock.py", line 1198, in _execute_mock_call
+    raise effect
+AssertionError: unexpected startup DNS lookup
+
+----------------------------------------------------------------------
+Ran 1 test in 0.003s
+
+FAILED (failures=1)

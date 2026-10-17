@@ -71,7 +71,7 @@ The default local cross-platform workflow is:
 
 ```sh
 ./tools/validate-local
-.venv/bin/python -m tools.check_local reviews/local-validation-public
+.venv/bin/python -m tools.check_local reviews/local-validation-startup
 ```
 
 The first command creates a fresh local run; the second rechecks the committed reviewed evidence. To retain a new run for Git, pass a fresh `--retain` directory as described in [the workflow guide](docs/LOCAL_VALIDATION.md).
@@ -82,7 +82,7 @@ One immutable snapshot supplies native macOS and Linux. New source files must be
 
 The VM profile and Docker configuration belong to this project. An already-running owned VM is refused; unrelated profiles are not stopped. Failed commands, timeout, interruption, OOM, missing source/test coverage or failed cleanup cannot pass. Evidence is exported before the owned container is removed; failed recovery export retains the stopped container for inspection. The owned VM is stopped at exit. VM disks/images and verified toolchain caches are deliberately retained for reuse, rather than claiming zero residual disk allocation.
 
-Raw evidence is written under ignored `results/local/dual-*`. `--retain` creates a fresh privacy-normalized directory under `reviews/`, records original digests and rechecks normalized evidence. It never overwrites an existing directory: choose a new `--retain` name for another retained run. The command does not commit, publish or change GitHub visibility. [Dual-platform overview](reviews/local-validation-public/report.html) · [combined receipt](reviews/local-validation-public/combined.json).
+Raw evidence is written under ignored `results/local/dual-*`. `--retain` creates a fresh privacy-normalized directory under `reviews/`, records original digests and rechecks normalized evidence. It never overwrites an existing directory: choose a new `--retain` name for another retained run. The command does not commit, publish or change GitHub visibility. [Dual-platform overview](reviews/local-validation-startup/report.html) · [combined receipt](reviews/local-validation-startup/combined.json).
 
 Single-environment commands remain available:
 
@@ -118,7 +118,7 @@ Verify the current source and recompute metrics/HTML:
 
 The source manifest binds all `relay`, `tools` and `tests` Python files, `pyproject.toml` and development requirements. README/CI metadata edits do not change this runtime/test manifest. It is a consistency hash, not a signed attestation.
 
-Retained same-source run: **60/60 tests and 5/5 targeted mutations in each environment**. All **2,160 accepted events** across **36 trials** match exactly one committed effect per trial event. No measured trial from the run was omitted.
+Retained same-source run: **61/61 tests and 5/5 targeted mutations in each environment**. All **2,160 accepted events** across **36 trials** match exactly one committed effect per trial event. No measured trial from the run was omitted.
 
 Each cell is the median of three trial summaries; p95 values are medians of trial p95s, not pooled percentiles. RSS/disk values are sampled peaks in the measurement window. Blob size excludes the JSON envelope.
 
@@ -126,29 +126,29 @@ Each cell is the median of three trial summaries; p95 values are medians of tria
 
 | Scenario | Blob bytes | Accept p95 ms | Commit p95 ms | Unique effects/s | Relay RSS MiB | DB+WAL+SHM MiB | Drain s |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| normal | 256 | 16.76 | 35.53 | 15.12 | 25.64 | 0.086 | — |
-| normal | 16,384 | 16.90 | 34.00 | 15.12 | 25.77 | 0.133 | — |
-| outage | 256 | 28.57 | 5192.96 | 9.86 | 25.78 | 0.098 | 1.91 |
-| outage | 16,384 | 28.35 | 5383.26 | 9.71 | 27.12 | 1.071 | 2.01 |
-| restart | 256 | 32.16 | 5384.61 | 9.75 | 25.69 | 0.102 | 1.90 |
-| restart | 16,384 | 30.44 | 5199.93 | 9.61 | 27.12 | 1.071 | 1.96 |
+| normal | 256 | 13.35 | 27.46 | 15.11 | 25.45 | 0.086 | — |
+| normal | 16,384 | 14.55 | 29.59 | 15.13 | 25.72 | 0.133 | — |
+| outage | 256 | 24.03 | 5100.50 | 10.12 | 25.52 | 0.098 | 1.75 |
+| outage | 16,384 | 24.22 | 4857.90 | 10.18 | 27.16 | 1.071 | 1.72 |
+| restart | 256 | 24.46 | 5116.07 | 10.00 | 25.52 | 0.098 | 1.71 |
+| restart | 16,384 | 26.45 | 5307.54 | 10.04 | 26.92 | 1.071 | 1.70 |
 
 ### Linux inside Colima + container
 
 | Scenario | Blob bytes | Accept p95 ms | Commit p95 ms | Unique effects/s | Relay RSS MiB | DB+WAL+SHM MiB | Drain s |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| normal | 256 | 5.86 | 9.03 | 15.21 | 23.16 | 0.078 | — |
-| normal | 16,384 | 5.47 | 9.47 | 15.23 | 23.20 | 0.137 | — |
-| outage | 256 | 3.78 | 4139.33 | 13.26 | 23.20 | 0.090 | 0.39 |
-| outage | 16,384 | 5.30 | 4139.62 | 13.22 | 24.25 | 1.086 | 0.40 |
-| restart | 256 | 3.26 | 4172.04 | 13.22 | 23.16 | 0.090 | 0.35 |
-| restart | 16,384 | 3.94 | 4288.63 | 13.16 | 24.23 | 1.086 | 0.38 |
+| normal | 256 | 4.50 | 7.10 | 15.22 | 23.17 | 0.074 | — |
+| normal | 16,384 | 4.37 | 7.42 | 15.21 | 23.25 | 0.137 | — |
+| outage | 256 | 4.07 | 4095.99 | 13.27 | 23.21 | 0.090 | 0.37 |
+| outage | 16,384 | 4.89 | 4243.32 | 13.28 | 24.31 | 1.086 | 0.38 |
+| restart | 256 | 3.55 | 4216.76 | 13.10 | 23.19 | 0.090 | 0.40 |
+| restart | 16,384 | 3.74 | 4228.16 | 13.17 | 24.28 | 1.086 | 0.37 |
 
 These are separate environment measurements, not a cross-OS optimization result. Both use Python 3.12.14 and psutil 7.0.0. Native SQLite is 3.53.1 with 15 visible host CPUs; the guest uses SQLite 3.40.1 and four vCPUs. Filesystem, synchronization and memory accounting also differ. The container has a 4 GiB limit; the VM has 6 GiB configured RAM. Guest relay RSS excludes host VM overhead, and apparent DB sizes are not VM image allocation.
 
-native: maximum issue lag **6.75 ms**, maximum sample gap **19.80 ms**.
+native: maximum issue lag **10.31 ms**, maximum sample gap **17.57 ms**.
 
-linux: maximum issue lag **5.27 ms**, maximum sample gap **17.39 ms**.
+linux: maximum issue lag **10.24 ms**, maximum sample gap **19.11 ms**.
 
 The [workflow review](reviews/local-workflow-review/README.md) records the export cleanup fix, controller fault coverage, real cancellation probe and publication boundaries.
 

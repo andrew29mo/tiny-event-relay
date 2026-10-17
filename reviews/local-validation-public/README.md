@@ -1,3 +1,7 @@
+# Historical initial-publication run (56b1134)
+
+This preserves the 60-test initial public run. A hosted macOS reverse-DNS startup issue was subsequently fixed; current 61-test evidence is in `../local-validation-startup/`. Use the earlier revision’s checker for these unchanged records.
+
 # Reviewed same-source macOS / Linux validation
 
 Both environments passed the same **60 tests and five targeted mutations**, then completed 18 trials / 1,080 matching committed effects each. Source bytes, test IDs, planned arrival offsets and payload hashes match. No completed trial is omitted.

@@ -9,6 +9,7 @@ import sqlite3
 import threading
 import time
 from http.server import BaseHTTPRequestHandler, HTTPServer
+from socketserver import TCPServer
 from urllib.parse import urlsplit, unquote
 
 from .store import Store, CapacityError, ConflictError
@@ -61,6 +62,11 @@ class LocalHandler(BaseHTTPRequestHandler):
 class Server(HTTPServer):
     allow_reuse_address = True
     request_queue_size = 32
+
+    def server_bind(self):
+        # A numeric loopback listener does not need HTTPServer's reverse DNS lookup.
+        TCPServer.server_bind(self)
+        self.server_name,self.server_port = self.server_address[:2]
 
     def get_request(self):
         sock, address = super().get_request()
