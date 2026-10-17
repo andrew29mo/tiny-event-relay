@@ -24,6 +24,38 @@ jobs:
         with:
           python-version: '3.12'
       - run: python -m pip install -r requirements-dev.txt
+      - name: Diagnose macOS receiver startup
+        if: runner.os == 'macOS'
+        run: |
+          python -u - <<'PY_DIAG'
+          import subprocess, sys
+          code = """
+          import socket, tempfile, time
+          from pathlib import Path
+          original = socket.getfqdn
+          def traced(*args):
+              print('enter getfqdn', args, flush=True)
+              start = time.monotonic()
+              value = original(*args)
+              print('leave getfqdn', value, time.monotonic()-start, flush=True)
+              return value
+          socket.getfqdn = traced
+          from tools.receiver import Receiver
+          with tempfile.TemporaryDirectory() as directory:
+              print('constructing production Receiver', flush=True)
+              receiver = Receiver(str(Path(directory)/'sink.sqlite'), port=0)
+              print('receiver constructed', receiver.server.server_address, flush=True)
+              receiver.server.server_close()
+              receiver.db.close()
+          """
+          try:
+              result = subprocess.run([sys.executable, '-u', '-c', code], capture_output=True, text=True, timeout=12)
+              print(result.stdout, result.stderr, flush=True)
+              result.check_returncode()
+          except subprocess.TimeoutExpired as error:
+              print('Receiver construction exceeded 12s:', error.stdout, error.stderr, flush=True)
+              raise
+          PY_DIAG
       - run: python -m tools.test_suite --output results/local/ci-tests
       - run: python -m tools.check_report results/native-macos/benchmark
       - run: python -m tools.check_validation results/native-macos
