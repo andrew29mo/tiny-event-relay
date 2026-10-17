@@ -3,6 +3,7 @@ import argparse
 import hashlib
 import json
 import os
+import platform
 import signal
 import subprocess
 import sys
@@ -85,7 +86,13 @@ def main():
         parser.error("output must be a fresh directory")
     args.output.mkdir(parents=True)
     before = source_manifest()
-    receipt = {"status":"running","created_utc":datetime.now(timezone.utc).isoformat(),"source":before,"steps":[]}
+    import relay
+    import tests
+    origins = {"relay":Path(relay.__file__).resolve().relative_to(ROOT).as_posix(),
+               "tests":Path(tests.__file__).resolve().relative_to(ROOT).as_posix()}
+    receipt = {"status":"running","created_utc":datetime.now(timezone.utc).isoformat(),"source":before,"steps":[],
+               "environment":{"system":platform.system(),"machine":platform.machine(),"python":platform.python_version(),
+                              "execution":args.execution_label},"module_origins":origins}
     def save():
         (args.output/"validation.json").write_text(json.dumps(receipt,indent=2)+"\n")
     save()

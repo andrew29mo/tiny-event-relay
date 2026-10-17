@@ -1,0 +1,15 @@
+#!/bin/sh
+set -eu
+TASK_ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+cd "$TASK_ROOT"
+if [ ! -x .venv/bin/python ]; then
+    "${TINY_EVENT_PYTHON:-python3.12}" -m venv .venv
+fi
+.venv/bin/python -c 'import sys; assert sys.version_info[:2] == (3,12)' || {
+    echo 'Use Python 3.12; set TINY_EVENT_PYTHON for a new environment.' >&2
+    exit 1
+}
+if ! .venv/bin/python -c 'import psutil; assert psutil.__version__ == "7.0.0"' 2>/dev/null; then
+    .venv/bin/python -m pip install -r requirements-dev.txt
+fi
+exec .venv/bin/python -m tools.validate_local "$@"

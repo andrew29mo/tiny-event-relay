@@ -1,0 +1,14 @@
+{
+  "colima_version": "0.10.3",
+  "lima_version": "2.2.1",
+  "assets": {
+    "arm64": [
+      {"name": "colima-Darwin-arm64", "url": "https://github.com/abiosoft/colima/releases/download/v0.10.3/colima-Darwin-arm64", "sha256": "980ad8bf61a4ca370243f4cb41401a61276dcd2c2502bee7b9b86f9250169f34"},
+      {"name": "lima-2.2.1-Darwin-arm64.tar.gz", "url": "https://github.com/lima-vm/lima/releases/download/v2.2.1/lima-2.2.1-Darwin-arm64.tar.gz", "sha256": "9e9eacce88f37e185c346bad73aa6136f738d8cdf8c3bb23cd42b071824bc66e"}
+    ],
+    "x86_64": [
+      {"name": "colima-Darwin-x86_64", "url": "https://github.com/abiosoft/colima/releases/download/v0.10.3/colima-Darwin-x86_64", "sha256": "3082737fe8a98afda11cba7d9a20b6e56fe80c6153464beda04bec630758770b"},
+      {"name": "lima-2.2.1-Darwin-x86_64.tar.gz", "url": "https://github.com/lima-vm/lima/releases/download/v2.2.1/lima-2.2.1-Darwin-x86_64.tar.gz", "sha256": "6b776e4bc41f358e6ee01fefcc78e2eb26f11635a0fcff632234af77a566c6c4"}
+    ]
+  }
+}

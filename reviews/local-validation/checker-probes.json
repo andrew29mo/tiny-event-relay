@@ -1,0 +1,56 @@
+{
+  "snapshot_sha256": "fcaae4dfe80e6b5564b5faaef44a2d57450882a1cee160fdd57fc38133d731cf",
+  "passed": true,
+  "cases": [
+    {
+      "case": "missing-test",
+      "rejected": true,
+      "reason": "missing/failed/skipped formal tests"
+    },
+    {
+      "case": "different-source",
+      "rejected": true,
+      "reason": "validation not passed for current source"
+    },
+    {
+      "case": "missing-driver",
+      "rejected": true,
+      "reason": "missing validation operation"
+    },
+    {
+      "case": "nonzero-container-exit",
+      "rejected": true,
+      "reason": "container outcome"
+    },
+    {
+      "case": "oom",
+      "rejected": true,
+      "reason": "container outcome"
+    },
+    {
+      "case": "leftover-container",
+      "rejected": true,
+      "reason": "owned container survived"
+    },
+    {
+      "case": "vm-still-running",
+      "rejected": true,
+      "reason": "VM stop contradicts list"
+    },
+    {
+      "case": "network-enabled",
+      "rejected": true,
+      "reason": "container isolation"
+    },
+    {
+      "case": "different-arrival-schedule",
+      "rejected": true,
+      "reason": "different workload parameters"
+    },
+    {
+      "case": "changed-overview",
+      "rejected": true,
+      "reason": "overview HTML mismatch"
+    }
+  ]
+}

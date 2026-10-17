@@ -27,3 +27,4 @@ jobs:
       - run: python -m tools.test_suite --output results/local/ci-tests
       - run: python -m tools.check_report results/native-macos/benchmark
       - run: python -m tools.check_validation results/native-macos
+      - run: python -m tools.check_local reviews/local-validation

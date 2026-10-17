@@ -1,0 +1,217 @@
+[
+    {
+        "Id": "dec956d83af9df00f0597a69fa7db302500d0eccd3419ca81c63f19c9337b0e1",
+        "Created": "2026-10-16T19:45:47.304572247Z",
+        "Path": "python",
+        "Args": [
+            "-m",
+            "tools.validate",
+            "--output",
+            "/evidence/run",
+            "--execution-label",
+            "colima-linux"
+        ],
+        "State": {
+            "Status": "exited",
+            "Running": false,
+            "Paused": false,
+            "Restarting": false,
+            "OOMKilled": false,
+            "Dead": false,
+            "Pid": 0,
+            "ExitCode": 0,
+            "Error": "",
+            "StartedAt": "2026-10-16T19:45:47.363554297Z",
+            "FinishedAt": "2026-10-16T19:47:31.533738627Z"
+        },
+        "Image": "sha256:5c3d952ecf3c86ca84e7fd5e8d14776d3b5d33312187ba77269f201a7f80f9b1",
+        "ResolvConfPath": "/var/lib/docker/containers/dec956d83af9df00f0597a69fa7db302500d0eccd3419ca81c63f19c9337b0e1/resolv.conf",
+        "HostnamePath": "/var/lib/docker/containers/dec956d83af9df00f0597a69fa7db302500d0eccd3419ca81c63f19c9337b0e1/hostname",
+        "HostsPath": "/var/lib/docker/containers/dec956d83af9df00f0597a69fa7db302500d0eccd3419ca81c63f19c9337b0e1/hosts",
+        "LogPath": "/var/lib/docker/containers/dec956d83af9df00f0597a69fa7db302500d0eccd3419ca81c63f19c9337b0e1/dec956d83af9df00f0597a69fa7db302500d0eccd3419ca81c63f19c9337b0e1-json.log",
+        "Name": "/tiny-event-validation-6c093520d01d432384ce4c2b8f52c88d",
+        "RestartCount": 0,
+        "Driver": "overlayfs",
+        "Platform": "linux",
+        "MountLabel": "",
+        "ProcessLabel": "",
+        "AppArmorProfile": "docker-default",
+        "ExecIDs": null,
+        "HostConfig": {
+            "Binds": null,
+            "ContainerIDFile": "",
+            "LogConfig": {
+                "Type": "json-file",
+                "Config": {}
+            },
+            "NetworkMode": "none",
+            "PortBindings": {},
+            "RestartPolicy": {
+                "Name": "no",
+                "MaximumRetryCount": 0
+            },
+            "AutoRemove": false,
+            "VolumeDriver": "",
+            "VolumesFrom": null,
+            "ConsoleSize": [
+                0,
+                0
+            ],
+            "CapAdd": null,
+            "CapDrop": [
+                "ALL"
+            ],
+            "CgroupnsMode": "private",
+            "Dns": null,
+            "DnsOptions": [],
+            "DnsSearch": [],
+            "ExtraHosts": null,
+            "GroupAdd": null,
+            "IpcMode": "private",
+            "Cgroup": "",
+            "Links": null,
+            "OomScoreAdj": 0,
+            "PidMode": "",
+            "Privileged": false,
+            "PublishAllPorts": false,
+            "ReadonlyRootfs": false,
+            "SecurityOpt": [
+                "no-new-privileges"
+            ],
+            "UTSMode": "",
+            "UsernsMode": "",
+            "ShmSize": 67108864,
+            "Runtime": "runc",
+            "Isolation": "",
+            "CpuShares": 0,
+            "Memory": 4294967296,
+            "NanoCpus": 4000000000,
+            "CgroupParent": "",
+            "BlkioWeight": 0,
+            "BlkioWeightDevice": [],
+            "BlkioDeviceReadBps": [],
+            "BlkioDeviceWriteBps": [],
+            "BlkioDeviceReadIOps": [],
+            "BlkioDeviceWriteIOps": [],
+            "CpuPeriod": 0,
+            "CpuQuota": 0,
+            "CpuRealtimePeriod": 0,
+            "CpuRealtimeRuntime": 0,
+            "CpusetCpus": "",
+            "CpusetMems": "",
+            "Devices": [],
+            "DeviceCgroupRules": null,
+            "DeviceRequests": null,
+            "MemoryReservation": 0,
+            "MemorySwap": 8589934592,
+            "MemorySwappiness": null,
+            "OomKillDisable": null,
+            "PidsLimit": null,
+            "Ulimits": [],
+            "CpuCount": 0,
+            "CpuPercent": 0,
+            "IOMaximumIOps": 0,
+            "IOMaximumBandwidth": 0,
+            "MaskedPaths": [
+                "/proc/acpi",
+                "/proc/asound",
+                "/proc/interrupts",
+                "/proc/kcore",
+                "/proc/keys",
+                "/proc/latency_stats",
+                "/proc/sched_debug",
+                "/proc/scsi",
+                "/proc/timer_list",
+                "/proc/timer_stats",
+                "/sys/devices/virtual/powercap",
+                "/sys/firmware"
+            ],
+            "ReadonlyPaths": [
+                "/proc/bus",
+                "/proc/fs",
+                "/proc/irq",
+                "/proc/sys",
+                "/proc/sysrq-trigger"
+            ],
+            "Init": true
+        },
+        "Storage": {
+            "RootFS": {
+                "Snapshot": {
+                    "Name": "overlayfs"
+                }
+            }
+        },
+        "Mounts": [],
+        "Config": {
+            "Hostname": "dec956d83af9",
+            "Domainname": "",
+            "User": "validator",
+            "AttachStdin": false,
+            "AttachStdout": true,
+            "AttachStderr": true,
+            "Tty": false,
+            "OpenStdin": false,
+            "StdinOnce": false,
+            "Env": [
+                "PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                "LANG=C.UTF-8",
+                "GPG_KEY=7169605F62C751356D054A26A821E680E5FA6305",
+                "PYTHON_VERSION=3.12.14",
+                "PYTHON_SHA256=5c8462af5790baf43a321a1559dbe0db06d1be4300fb85fb53c40060668e548a",
+                "PYTHONUNBUFFERED=1"
+            ],
+            "Cmd": [
+                "--output",
+                "/evidence/run",
+                "--execution-label",
+                "colima-linux"
+            ],
+            "Image": "sha256:5c3d952ecf3c86ca84e7fd5e8d14776d3b5d33312187ba77269f201a7f80f9b1",
+            "Volumes": null,
+            "WorkingDir": "/workspace",
+            "Entrypoint": [
+                "python",
+                "-m",
+                "tools.validate"
+            ],
+            "Labels": {
+                "tiny-event.snapshot": "fcaae4dfe80e6b5564b5faaef44a2d57450882a1cee160fdd57fc38133d731cf",
+                "tiny-event.validation.run": "6c093520d01d432384ce4c2b8f52c88d"
+            }
+        },
+        "NetworkSettings": {
+            "SandboxID": "",
+            "SandboxKey": "",
+            "Ports": {},
+            "Networks": {
+                "none": {
+                    "IPAMConfig": null,
+                    "Links": null,
+                    "Aliases": null,
+                    "DriverOpts": null,
+                    "GwPriority": 0,
+                    "NetworkID": "0133c22408c7604b9ded38008275d74ae9efbc65b2a81e3da0de8bd1af96b1e9",
+                    "EndpointID": "",
+                    "Gateway": "",
+                    "IPAddress": "",
+                    "MacAddress": "",
+                    "IPPrefixLen": 0,
+                    "IPv6Gateway": "",
+                    "GlobalIPv6Address": "",
+                    "GlobalIPv6PrefixLen": 0,
+                    "DNSNames": null
+                }
+            }
+        },
+        "ImageManifestDescriptor": {
+            "mediaType": "application/vnd.oci.image.manifest.v1+json",
+            "digest": "sha256:12e643750c08e2c2f00d0aebc685ec6f4a5f95166a4652aedde7a42e1b28146e",
+            "size": 1625,
+            "platform": {
+                "architecture": "arm64",
+                "os": "linux"
+            }
+        }
+    }
+]

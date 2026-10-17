@@ -256,7 +256,8 @@ def main():
                 "A sampling exception, gap above 100 ms, missing process lifetime or incomplete measurement window fails validation.",
                 "RSS samples every nominal 10 ms cover relay PID only (both PID lifetimes on restart), excluding receiver/client/kernel and filesystem cache.",
                 "Disk samples count apparent DB+WAL+SHM file lengths, not allocated filesystem blocks, total host writes or storage endurance; short peaks may be missed.",
-                "No power-loss, disk hardware, hostile network, Internet, Linux or multi-node validation in this native report.",
+                "Only the recorded environment is measured. No hardware power-loss, disk-device, hostile-network, Internet or multi-node validation is claimed.",
+                "Colima/container measurements use a Linux guest and container filesystem. Guest relay RSS excludes host VM/kernel/image overhead; apparent DB file sizes are not host VM-disk allocation.",
                 "At-least-once transport requires a receiver that atomically deduplicates IDs and applies its effects; no universal exactly-once guarantee."],
               "trials":[]}
     try:

@@ -1,0 +1,14 @@
+test_lost_ack_retries_but_business_effect_once (tests.test_relay.NetworkTests.test_lost_ack_retries_but_business_effect_once) ... FAIL
+
+======================================================================
+FAIL: test_lost_ack_retries_but_business_effect_once (tests.test_relay.NetworkTests.test_lost_ack_retries_but_business_effect_once)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repo>/tests/test_relay.py", line 79, in test_lost_ack_retries_but_business_effect_once
+    self.assertEqual(len(effects["effects"]),1)
+AssertionError: 2 != 1
+
+----------------------------------------------------------------------
+Ran 1 test in 0.398s
+
+FAILED (failures=1)

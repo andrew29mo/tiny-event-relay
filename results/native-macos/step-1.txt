@@ -1,3 +1,11 @@
+test_failed_export_retains_stopped_container (test_local.ContainerRecoveryTests.test_failed_export_retains_stopped_container) ... ok
+test_profile_inventory_ignores_unrelated_profiles (test_local.ContainerRecoveryTests.test_profile_inventory_ignores_unrelated_profiles) ... ok
+test_successful_export_precedes_container_removal (test_local.ContainerRecoveryTests.test_successful_export_precedes_container_removal) ... ok
+test_detached_child_after_successful_parent_is_reclaimed_and_failed (test_local.OuterProcessTests.test_detached_child_after_successful_parent_is_reclaimed_and_failed) ... ok
+test_nonzero_command_is_failed (test_local.OuterProcessTests.test_nonzero_command_is_failed) ... ok
+test_timeout_cannot_be_success_even_when_sigterm_exits_zero (test_local.OuterProcessTests.test_timeout_cannot_be_success_even_when_sigterm_exits_zero) ... ok
+test_snapshot_copies_exact_input_and_detects_later_edit (test_local.SnapshotTests.test_snapshot_copies_exact_input_and_detects_later_edit) ... ok
+test_snapshot_refuses_symlink_and_parent_escape (test_local.SnapshotTests.test_snapshot_refuses_symlink_and_parent_escape) ... ok
 test_429_delay_is_honored_up_to_cap (test_relay.NetworkTests.test_429_delay_is_honored_up_to_cap) ... ok
 test_bad_input_does_not_enter_queue (test_relay.NetworkTests.test_bad_input_does_not_enter_queue) ... ok
 test_canonical_delivery_and_duplicate_conflict (test_relay.NetworkTests.test_canonical_delivery_and_duplicate_conflict) ... ok
@@ -43,6 +51,6 @@ test_successful_parent_leaving_detached_child_is_failure (test_validation.Valida
 test_timeout_cannot_pass (test_validation.ValidationTests.test_timeout_cannot_pass) ... ok
 
 ----------------------------------------------------------------------
-Ran 43 tests in 20.027s
+Ran 51 tests in 21.294s
 
 OK

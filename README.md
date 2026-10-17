@@ -67,6 +67,23 @@ Defaults: 1,000 unresolved events, 8 MiB unresolved payload, 64 KiB/event, 64 Mi
 
 ## Tests and retained measurements
 
+The default local cross-platform workflow is:
+
+```sh
+./tools/validate-local --retain reviews/local-validation
+.venv/bin/python -m tools.check_local reviews/local-validation
+```
+
+It uses an existing project Python 3.12 environment or creates `.venv` with `python3.12` (override `TINY_EVENT_PYTHON` if needed), installs the pinned measurement dependency, and installs checksum-pinned Colima/Lima into ignored local storage. An installed Docker CLI/buildx is required; Docker Desktop does not need to run. Apple Virtualization support is required. The retained run here uses ARM64; Intel assets are available but were not exercised on this host.
+
+One immutable snapshot supplies native macOS and Linux. New source files must be tracked/staged before they become validation inputs. The snapshot includes all formal runtime/test/tool Python files and explicit validation setup files; it excludes spools, credentials, environments and historical reports. Native runs in a fresh environment with the dedicated VM stopped. Linux runs in a non-root container with no external network or host mounts, an init process, four-CPU quota and 4 GiB memory, inside a dedicated 4-vCPU/6-GiB Colima VM. Architecture, source hashes, complete successful test-ID lists and planned payload/arrival schedules must agree.
+
+The VM profile and Docker configuration belong to this project. An already-running owned VM is refused; unrelated profiles are not stopped. Failed commands, timeout, interruption, OOM, missing source/test coverage or failed cleanup cannot pass. Evidence is exported before the owned container is removed; failed recovery export retains the stopped container for inspection. The owned VM is stopped at exit. VM disks/images and verified toolchain caches are deliberately retained for reuse, rather than claiming zero residual disk allocation.
+
+Raw evidence is written under ignored `results/local/dual-*`. `--retain` creates a fresh privacy-normalized directory under `reviews/`, records original digests and rechecks normalized evidence. It never overwrites an existing directory: choose a new `--retain` name for another retained run. The command does not commit, publish or change GitHub visibility. [Dual-platform overview](reviews/local-validation/report.html) · [combined receipt](reviews/local-validation/combined.json).
+
+Single-environment commands remain available:
+
 ```sh
 .venv/bin/python -m unittest discover -v
 # Full sequential run: formal tests, isolated mutations, benchmark, report checker.
@@ -76,7 +93,7 @@ Defaults: 1,000 unresolved events, 8 MiB unresolved payload, 64 KiB/event, 64 Mi
   --execution-label native-macos-host
 ```
 
-Use an accurate execution label on other hosts/VMs. The tools do not automatically establish whether the host is virtualized. The retained run below was performed directly on the native macOS host, not in Colima or a container.
+For manual single-environment runs, use an accurate execution label; that runner does not detect virtualization automatically. The dual-platform controller sets and verifies its labels. The native table below comes from macOS host processes, and the Linux table comes from the dedicated Colima VM/container.
 
 The live process tests cover durable acceptance, actual disconnected listeners, SIGKILL/restart, a crash after receiver commit, lost acknowledgments, timeout recovery, duplicate/conflicting IDs, count/payload/disk admission limits, real SQLite page exhaustion, stale claim tokens, permanent failure/requeue and partial-request shutdown. Supplemental fault injection checks rollback on a commit error. Expected benchmark bytes come directly from the standard JSON contract, without invoking production serialization; the live delivery test also independently decodes the receiver’s stored payload. Report tests use **synthetic fixtures for arithmetic and tamper detection only**, not for service correctness.
 
@@ -99,20 +116,37 @@ Verify the current source and recompute metrics/HTML:
 
 The source manifest binds all `relay`, `tools` and `tests` Python files, `pyproject.toml` and development requirements. README/CI metadata edits do not change this runtime/test manifest. It is a consistency hash, not a signed attestation.
 
-Retained reviewed native macOS run: **43/43 tests**, **5/5 targeted mutations detected**, and **1,080/1,080 accepted events with matching unique committed effects** across 18 trials. No trial from this run was omitted from the aggregate.
+Retained same-source run: **51/51 tests and 5/5 targeted mutations in each environment**. All **2,160 accepted events** across **36 trials** match exactly one committed effect per trial event. No measured trial from the run was omitted.
 
-Each cell is the median of three trial summaries; p95 values are medians of per-trial p95s, not pooled percentiles. Blob size excludes the JSON envelope. RSS/disk columns are sampled peaks within the declared measurement window.
+Each cell is the median of three trial summaries; p95 values are medians of trial p95s, not pooled percentiles. RSS/disk values are sampled peaks in the measurement window. Blob size excludes the JSON envelope.
+
+### Native macOS host processes
 
 | Scenario | Blob bytes | Accept p95 ms | Commit p95 ms | Unique effects/s | Relay RSS MiB | DB+WAL+SHM MiB | Drain s |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| normal | 256 | 15.63 | 31.84 | 15.12 | 25.50 | 0.086 | — |
-| normal | 16,384 | 15.48 | 32.50 | 15.10 | 25.53 | 0.133 | — |
-| outage | 256 | 23.43 | 5295.67 | 9.95 | 25.64 | 0.098 | 1.86 |
-| outage | 16,384 | 30.13 | 5159.22 | 9.70 | 27.02 | 1.071 | 2.01 |
-| restart | 256 | 26.85 | 5444.99 | 9.58 | 25.48 | 0.094 | 1.96 |
-| restart | 16,384 | 26.27 | 5211.82 | 9.69 | 26.86 | 1.071 | 1.89 |
+| normal | 256 | 15.81 | 32.09 | 15.13 | 25.50 | 0.082 | — |
+| normal | 16,384 | 16.29 | 35.50 | 15.13 | 25.78 | 0.133 | — |
+| outage | 256 | 29.60 | 5231.70 | 9.90 | 25.62 | 0.098 | 1.90 |
+| outage | 16,384 | 34.75 | 5179.78 | 9.77 | 27.09 | 1.071 | 1.94 |
+| restart | 256 | 31.37 | 5354.92 | 9.65 | 25.55 | 0.098 | 1.94 |
+| restart | 16,384 | 33.23 | 5503.65 | 9.56 | 26.97 | 1.071 | 2.01 |
 
-Across all trials: maximum issue lag **10.46 ms**; maximum sample gap **19.54 ms**. Offline/restart end-to-end latency includes the intentional outage and queue wait. These scenarios demonstrate recovery, not a speed advantage over normal operation. Scheduled-arrival p95s and after-drain file sizes are also retained in JSON.
+### Linux inside Colima + container
+
+| Scenario | Blob bytes | Accept p95 ms | Commit p95 ms | Unique effects/s | Relay RSS MiB | DB+WAL+SHM MiB | Drain s |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| normal | 256 | 4.81 | 8.14 | 15.22 | 23.27 | 0.074 | — |
+| normal | 16,384 | 5.32 | 9.12 | 15.22 | 23.31 | 0.137 | — |
+| outage | 256 | 4.06 | 4188.73 | 13.31 | 23.29 | 0.090 | 0.37 |
+| outage | 16,384 | 4.58 | 4100.30 | 13.20 | 24.35 | 1.086 | 0.41 |
+| restart | 256 | 4.04 | 4204.11 | 13.29 | 23.26 | 0.090 | 0.34 |
+| restart | 16,384 | 3.73 | 4137.48 | 13.22 | 24.35 | 1.086 | 0.36 |
+
+These are separate environment measurements, not a cross-OS optimization result. Both use Python 3.12.14 and psutil 7.0.0. Native SQLite is 3.53.1 with 15 visible host CPUs; the guest uses SQLite 3.40.1 and four vCPUs. Filesystem, synchronization and memory accounting also differ. The container has a 4 GiB limit; the VM has 6 GiB configured RAM. Guest relay RSS excludes host VM overhead, and apparent DB sizes are not VM image allocation.
+
+native: maximum issue lag **5.41 ms**, maximum sample gap **15.75 ms**.
+
+linux: maximum issue lag **11.13 ms**, maximum sample gap **17.96 ms**.
 
 ## Measurement boundaries
 
@@ -130,7 +164,7 @@ RSS and DB/WAL/SHM file lengths are sampled nominally every 10 ms. Sampling exce
 
 The first process starts before the measurement window, so its initial startup peak is not measured. Restart startup falls inside that scenario's window. These are sampled peaks during the declared experiment, not lifetime maximum RSS or total deployment memory.
 
-Only this native host was measured. The CI matrix targets Linux/macOS correctness, but remote status must be checked separately; configuration is not evidence that CI ran. No Linux/VM performance, Internet load, power-cut, disk-device failure, long-duration endurance or confidence intervals are claimed. Results depend heavily on SQLite synchronization and storage. See [security boundaries](SECURITY.md).
+Native macOS and Linux-in-Colima measurements are reported separately. Linux relay RSS is guest-process RSS, excluding the host VM, kernel, receiver, client and images. The container's filesystem and synchronization behavior differ from the host; its apparent DB sizes are not host VM-disk allocation. These measurements do not establish native Linux speedup or cross-OS memory savings. No Internet load, power-cut, disk-device failure, long-duration endurance or confidence intervals are claimed. Results depend heavily on SQLite synchronization and storage. The CI matrix targets Linux/macOS correctness, but remote status must be checked separately; configured workflows and local Linux success are not a remote CI pass. See [security boundaries](SECURITY.md).
 
 ## Scope and licensing
 

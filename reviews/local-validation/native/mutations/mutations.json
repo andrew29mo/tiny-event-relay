@@ -1,0 +1,119 @@
+{
+  "passed": true,
+  "source": {
+    "sha256": "b172f70d77b3b4d9159d8c7f9687ddef418cf944e12efe7176caa6bbd1ee99dc",
+    "files": {
+      "pyproject.toml": "5351d82a6e1e23cd373d55a3907655191444a08fafdab3b53e4326688ad50dc3",
+      "relay/__init__.py": "47999de61a17b1edc77541a4fe63858e08d8574d431c37095f30a875a2cad765",
+      "relay/__main__.py": "c496dc9b591a9e51e2f7b966ed5e77da5479a49653f8c03db8e97d84932369ae",
+      "relay/httpio.py": "a7c023b123e6dab793ca26e977e9775b444aabb764108e52c8727c351f12ae49",
+      "relay/service.py": "df6a47c836c16c2fcb7613b4233e52992deae4098e7ae3ac34276590337b9735",
+      "relay/store.py": "4cbe3e82f7883f332921a7f63b4e718983c4b711511eac9db43e3144a89a127d",
+      "requirements-dev.txt": "b6c8d86768d07e1dae4fb734c2e93997445a318d43290b307bfc1c800a0b1e52",
+      "tests/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "tests/support.py": "22bf682646a06999dde0193c672e6169b3219996049c6cf4e889d799f9b37d44",
+      "tests/test_local.py": "94238d195069bc7d37a3a3525614bd397daded6a251d4eee885eb088c1f1dcf6",
+      "tests/test_relay.py": "9730247ec0bd3ba9a3d2c032db1ebd7830750e554f0738e15931d12f594cd184",
+      "tests/test_reports.py": "3f6937659bc3a1681270b73c8f29dc7f012174d679e1c86fa76216eff13b3926",
+      "tests/test_review.py": "ac60444ca788d5cc67b1eff6cc56ba21aef84ba679cdfba72f10e34d863559b3",
+      "tests/test_validation.py": "6fe81afe1524702690ef4f7420496a7dfb9db6a539581e6a7b011f33f878caa4",
+      "tests/validation_child.py": "8cd29272c635156f7b4afbcf03ab5fd8dc060d1449395949b0948540f18b7d9d",
+      "tools/__init__.py": "625aec0086a26c27c93501f12c89d50167eaae272039ad596015c3a381977a3e",
+      "tools/benchmark.py": "a6f5d93243234ed5ff2d774cacecde2cc91cf72cbd06c54ebbee680ffd72739a",
+      "tools/check_local.py": "3215ea11d6d172b3d23793b3e988deef33ca1f53cafec497c4da8d155b49c775",
+      "tools/check_report.py": "4a447ef19c8ef1467b3f375799c16d1ab848d4630b42776a9012799a073fb869",
+      "tools/check_validation.py": "d7b25ecfe842a249c6eb345888ca083891d99cee14173d225def9120afa09f1d",
+      "tools/evidence.py": "05e3c61e2547cd737c22dadea9343a9a5fead9607c0027b9385f9d171a317b51",
+      "tools/install_colima.py": "8eed3adcf27aabc1ba14cf6d685fead9615ea36e2a4fa041fc127a6d75989962",
+      "tools/mutation_check.py": "c87d160f704e8b1d94d530645e15b991e1838fe7d41af54fd1ac1b48e16f0ee2",
+      "tools/platform_io.py": "c45533803edafbbb13163960697eb58afa7d14522848850e1af57c5a5ec3726b",
+      "tools/receiver.py": "e5831a515546325ed3c6a9a52101869d3da9fc699f166cf24873e1024f9ddb87",
+      "tools/retain_validation.py": "2f0e57121438a2b04962e3ce7af0dcfd8a1207da0a55e13c99c23c585bab46b8",
+      "tools/test_suite.py": "82d5a302cf865e30d645dfc48f5a0bf7850537c0693a738a777de3d7a320814e",
+      "tools/validate.py": "88225b34285039af5c9de58d71645ef5e4f5f3a1e9b5ef7e7b4bd5ebbb01625d",
+      "tools/validate_local.py": "49ed673aca706d4bc246bac483b4c87ebf64a0dd7b85820d42ec0242293dc8fd",
+      "tools/validation_process.py": "f0ab6b6b9fbcbb54b1730dc40e2951037cead09b4aeb307df314986eca1f56b1"
+    }
+  },
+  "cases": [
+    {
+      "name": "payload-loss",
+      "file": "relay/service.py",
+      "replacements": [
+        [
+          "def canonical(value):\n    return json.dumps",
+          "def canonical(value):\n    if isinstance(value,dict) and 'b' in value:\n        value={k:v for k,v in value.items() if k!='b'}\n    return json.dumps"
+        ]
+      ],
+      "test": "tests.test_relay.NetworkTests.test_canonical_delivery_and_duplicate_conflict",
+      "detected": true,
+      "exit_code": 1,
+      "failures": 1,
+      "errors": 0
+    },
+    {
+      "name": "count-quota",
+      "file": "relay/store.py",
+      "replacements": [
+        [
+          "if count >= self.max_events or size + len(payload) > self.max_payload_bytes:",
+          "if False:"
+        ]
+      ],
+      "test": "tests.test_relay.NetworkTests.test_count_quota_never_evicts_unresolved",
+      "detected": true,
+      "exit_code": 1,
+      "failures": 1,
+      "errors": 0
+    },
+    {
+      "name": "conflicting-id",
+      "file": "relay/store.py",
+      "replacements": [
+        [
+          "if row[\"digest\"] != digest:",
+          "if False:"
+        ]
+      ],
+      "test": "tests.test_relay.NetworkTests.test_canonical_delivery_and_duplicate_conflict",
+      "detected": true,
+      "exit_code": 1,
+      "failures": 1,
+      "errors": 0
+    },
+    {
+      "name": "stale-token",
+      "file": "relay/store.py",
+      "replacements": [
+        [
+          "AND token=?\"\"\"",
+          "AND ? IS NOT NULL\"\"\""
+        ]
+      ],
+      "test": "tests.test_relay.StoreFaultTests.test_stale_claim_token_cannot_override_new_claim",
+      "detected": true,
+      "exit_code": 1,
+      "failures": 1,
+      "errors": 0
+    },
+    {
+      "name": "receiver-dedup",
+      "file": "tools/receiver.py",
+      "replacements": [
+        [
+          "if old is None:\n                        sink.db.execute(\"INSERT INTO receipts",
+          "if True:\n                        sink.db.execute(\"INSERT INTO receipts"
+        ],
+        [
+          "INSERT INTO receipts VALUES (?,?)",
+          "INSERT OR IGNORE INTO receipts VALUES (?,?)"
+        ]
+      ],
+      "test": "tests.test_relay.NetworkTests.test_lost_ack_retries_but_business_effect_once",
+      "detected": true,
+      "exit_code": 1,
+      "failures": 1,
+      "errors": 0
+    }
+  ]
+}

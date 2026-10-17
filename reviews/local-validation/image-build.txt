@@ -1,0 +1,80 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 470B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/python:3.12.14-slim-bookworm@sha256:392307d22300de8b5986851a12d9176dfc0fc073e65bf6523ebd7dcbeb23564e
+#2 DONE 2.2s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [internal] load build context
+#4 transferring context: 375.29kB done
+#4 DONE 0.0s
+
+#5 [1/4] FROM docker.io/library/python:3.12.14-slim-bookworm@sha256:392307d22300de8b5986851a12d9176dfc0fc073e65bf6523ebd7dcbeb23564e
+#5 resolve docker.io/library/python:3.12.14-slim-bookworm@sha256:392307d22300de8b5986851a12d9176dfc0fc073e65bf6523ebd7dcbeb23564e done
+#5 sha256:98a88de3b9e64e69723df9c664862aea75f62c5732af6dc7c07d532b1b2363ac 0B / 249B 0.2s
+#5 sha256:98a88de3b9e64e69723df9c664862aea75f62c5732af6dc7c07d532b1b2363ac 249B / 249B 0.2s done
+#5 sha256:e7149a79e79b687d3de2d82f2cf6c7ee0d425fee1b58cfcf5f77172ffb20377e 0B / 13.60MB 0.3s
+#5 sha256:9ed2bd026f9ca0e0bf1847b54ff64a6ee63fe6abc352ba2a928558060e9cb49a 0B / 3.37MB 0.2s
+#5 sha256:333125b5cee9fb6718bdcb523fc93b4adc71b7c37ada6146a20c193430e549b9 0B / 28.12MB 0.2s
+#5 sha256:e7149a79e79b687d3de2d82f2cf6c7ee0d425fee1b58cfcf5f77172ffb20377e 4.19MB / 13.60MB 0.6s
+#5 sha256:e7149a79e79b687d3de2d82f2cf6c7ee0d425fee1b58cfcf5f77172ffb20377e 7.34MB / 13.60MB 0.8s
+#5 sha256:e7149a79e79b687d3de2d82f2cf6c7ee0d425fee1b58cfcf5f77172ffb20377e 9.44MB / 13.60MB 0.9s
+#5 sha256:e7149a79e79b687d3de2d82f2cf6c7ee0d425fee1b58cfcf5f77172ffb20377e 12.58MB / 13.60MB 1.1s
+#5 sha256:9ed2bd026f9ca0e0bf1847b54ff64a6ee63fe6abc352ba2a928558060e9cb49a 1.05MB / 3.37MB 0.9s
+#5 sha256:e7149a79e79b687d3de2d82f2cf6c7ee0d425fee1b58cfcf5f77172ffb20377e 13.60MB / 13.60MB 1.1s done
+#5 sha256:9ed2bd026f9ca0e0bf1847b54ff64a6ee63fe6abc352ba2a928558060e9cb49a 3.37MB / 3.37MB 1.1s done
+#5 sha256:333125b5cee9fb6718bdcb523fc93b4adc71b7c37ada6146a20c193430e549b9 4.19MB / 28.12MB 1.2s
+#5 sha256:333125b5cee9fb6718bdcb523fc93b4adc71b7c37ada6146a20c193430e549b9 6.29MB / 28.12MB 1.4s
+#5 sha256:333125b5cee9fb6718bdcb523fc93b4adc71b7c37ada6146a20c193430e549b9 8.39MB / 28.12MB 1.5s
+#5 sha256:333125b5cee9fb6718bdcb523fc93b4adc71b7c37ada6146a20c193430e549b9 11.53MB / 28.12MB 1.7s
+#5 sha256:333125b5cee9fb6718bdcb523fc93b4adc71b7c37ada6146a20c193430e549b9 16.78MB / 28.12MB 1.8s
+#5 sha256:333125b5cee9fb6718bdcb523fc93b4adc71b7c37ada6146a20c193430e549b9 20.97MB / 28.12MB 2.0s
+#5 sha256:333125b5cee9fb6718bdcb523fc93b4adc71b7c37ada6146a20c193430e549b9 26.21MB / 28.12MB 2.1s
+#5 sha256:333125b5cee9fb6718bdcb523fc93b4adc71b7c37ada6146a20c193430e549b9 28.12MB / 28.12MB 2.3s done
+#5 extracting sha256:333125b5cee9fb6718bdcb523fc93b4adc71b7c37ada6146a20c193430e549b9
+#5 extracting sha256:333125b5cee9fb6718bdcb523fc93b4adc71b7c37ada6146a20c193430e549b9 0.3s done
+#5 DONE 2.6s
+
+#5 [1/4] FROM docker.io/library/python:3.12.14-slim-bookworm@sha256:392307d22300de8b5986851a12d9176dfc0fc073e65bf6523ebd7dcbeb23564e
+#5 extracting sha256:9ed2bd026f9ca0e0bf1847b54ff64a6ee63fe6abc352ba2a928558060e9cb49a 0.0s done
+#5 extracting sha256:e7149a79e79b687d3de2d82f2cf6c7ee0d425fee1b58cfcf5f77172ffb20377e 0.1s done
+#5 DONE 2.8s
+
+#5 [1/4] FROM docker.io/library/python:3.12.14-slim-bookworm@sha256:392307d22300de8b5986851a12d9176dfc0fc073e65bf6523ebd7dcbeb23564e
+#5 extracting sha256:98a88de3b9e64e69723df9c664862aea75f62c5732af6dc7c07d532b1b2363ac done
+#5 DONE 2.8s
+
+#6 [2/4] WORKDIR /workspace
+#6 DONE 0.1s
+
+#7 [3/4] COPY workspace /workspace
+#7 DONE 0.0s
+
+#8 [4/4] RUN python -m pip install --no-cache-dir -r requirements-dev.txt     && useradd --uid 10001 --create-home validator     && mkdir /evidence && chown -R validator:validator /workspace /evidence
+#8 0.874 Collecting psutil==7.0.0 (from -r requirements-dev.txt (line 1))
+#8 1.039   Downloading psutil-7.0.0-cp36-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl.metadata (22 kB)
+#8 1.090 Downloading psutil-7.0.0-cp36-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl (279 kB)
+#8 1.188 Installing collected packages: psutil
+#8 1.267 Successfully installed psutil-7.0.0
+#8 1.267 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+#8 1.449 
+#8 1.449 [notice] A new release of pip is available: 25.0.1 -> 26.2.1
+#8 1.449 [notice] To update, run: pip install --upgrade pip
+#8 DONE 1.5s
+
+#9 exporting to image
+#9 exporting layers
+#9 exporting layers 0.2s done
+#9 exporting manifest sha256:12e643750c08e2c2f00d0aebc685ec6f4a5f95166a4652aedde7a42e1b28146e done
+#9 exporting config sha256:f77b782837f6bb26161dfb37fa109c3c6bb37189fa546f74099b404495d5357e done
+#9 exporting attestation manifest sha256:194e412e4d2364ff49fa457ca79679b1fc7a77f98b0154fa5628f21674dccdcd done
+#9 exporting manifest list sha256:5c3d952ecf3c86ca84e7fd5e8d14776d3b5d33312187ba77269f201a7f80f9b1 done
+#9 naming to docker.io/library/tiny-event-validation:6c093520d01d432384ce4c2b8f52c88d done
+#9 unpacking to docker.io/library/tiny-event-validation:6c093520d01d432384ce4c2b8f52c88d 0.0s done
+#9 DONE 0.3s
