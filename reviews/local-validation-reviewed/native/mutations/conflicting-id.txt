@@ -1,0 +1,14 @@
+test_canonical_delivery_and_duplicate_conflict (tests.test_relay.NetworkTests.test_canonical_delivery_and_duplicate_conflict) ... FAIL
+
+======================================================================
+FAIL: test_canonical_delivery_and_duplicate_conflict (tests.test_relay.NetworkTests.test_canonical_delivery_and_duplicate_conflict)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repo>/tests/test_relay.py", line 37, in test_canonical_delivery_and_duplicate_conflict
+    self.assertEqual(s.submit("one",{"b":4})[0],409)
+AssertionError: 200 != 409
+
+----------------------------------------------------------------------
+Ran 1 test in 0.437s
+
+FAILED (failures=1)

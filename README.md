@@ -70,9 +70,11 @@ Defaults: 1,000 unresolved events, 8 MiB unresolved payload, 64 KiB/event, 64 Mi
 The default local cross-platform workflow is:
 
 ```sh
-./tools/validate-local --retain reviews/local-validation
-.venv/bin/python -m tools.check_local reviews/local-validation
+./tools/validate-local
+.venv/bin/python -m tools.check_local reviews/local-validation-reviewed
 ```
+
+The first command creates a fresh local run; the second rechecks the committed reviewed evidence. To retain a new run for Git, pass a fresh `--retain` directory as described in [the workflow guide](docs/LOCAL_VALIDATION.md).
 
 It uses an existing project Python 3.12 environment or creates `.venv` with `python3.12` (override `TINY_EVENT_PYTHON` if needed), installs the pinned measurement dependency, and installs checksum-pinned Colima/Lima into ignored local storage. An installed Docker CLI/buildx is required; Docker Desktop does not need to run. Apple Virtualization support is required. The retained run here uses ARM64; Intel assets are available but were not exercised on this host.
 
@@ -80,7 +82,7 @@ One immutable snapshot supplies native macOS and Linux. New source files must be
 
 The VM profile and Docker configuration belong to this project. An already-running owned VM is refused; unrelated profiles are not stopped. Failed commands, timeout, interruption, OOM, missing source/test coverage or failed cleanup cannot pass. Evidence is exported before the owned container is removed; failed recovery export retains the stopped container for inspection. The owned VM is stopped at exit. VM disks/images and verified toolchain caches are deliberately retained for reuse, rather than claiming zero residual disk allocation.
 
-Raw evidence is written under ignored `results/local/dual-*`. `--retain` creates a fresh privacy-normalized directory under `reviews/`, records original digests and rechecks normalized evidence. It never overwrites an existing directory: choose a new `--retain` name for another retained run. The command does not commit, publish or change GitHub visibility. [Dual-platform overview](reviews/local-validation/report.html) · [combined receipt](reviews/local-validation/combined.json).
+Raw evidence is written under ignored `results/local/dual-*`. `--retain` creates a fresh privacy-normalized directory under `reviews/`, records original digests and rechecks normalized evidence. It never overwrites an existing directory: choose a new `--retain` name for another retained run. The command does not commit, publish or change GitHub visibility. [Dual-platform overview](reviews/local-validation-reviewed/report.html) · [combined receipt](reviews/local-validation-reviewed/combined.json).
 
 Single-environment commands remain available:
 
@@ -116,7 +118,7 @@ Verify the current source and recompute metrics/HTML:
 
 The source manifest binds all `relay`, `tools` and `tests` Python files, `pyproject.toml` and development requirements. README/CI metadata edits do not change this runtime/test manifest. It is a consistency hash, not a signed attestation.
 
-Retained same-source run: **51/51 tests and 5/5 targeted mutations in each environment**. All **2,160 accepted events** across **36 trials** match exactly one committed effect per trial event. No measured trial from the run was omitted.
+Retained same-source run: **60/60 tests and 5/5 targeted mutations in each environment**. All **2,160 accepted events** across **36 trials** match exactly one committed effect per trial event. No measured trial from the run was omitted.
 
 Each cell is the median of three trial summaries; p95 values are medians of trial p95s, not pooled percentiles. RSS/disk values are sampled peaks in the measurement window. Blob size excludes the JSON envelope.
 
@@ -124,29 +126,31 @@ Each cell is the median of three trial summaries; p95 values are medians of tria
 
 | Scenario | Blob bytes | Accept p95 ms | Commit p95 ms | Unique effects/s | Relay RSS MiB | DB+WAL+SHM MiB | Drain s |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| normal | 256 | 15.81 | 32.09 | 15.13 | 25.50 | 0.082 | — |
-| normal | 16,384 | 16.29 | 35.50 | 15.13 | 25.78 | 0.133 | — |
-| outage | 256 | 29.60 | 5231.70 | 9.90 | 25.62 | 0.098 | 1.90 |
-| outage | 16,384 | 34.75 | 5179.78 | 9.77 | 27.09 | 1.071 | 1.94 |
-| restart | 256 | 31.37 | 5354.92 | 9.65 | 25.55 | 0.098 | 1.94 |
-| restart | 16,384 | 33.23 | 5503.65 | 9.56 | 26.97 | 1.071 | 2.01 |
+| normal | 256 | 14.75 | 31.18 | 15.14 | 25.52 | 0.078 | — |
+| normal | 16,384 | 17.48 | 37.53 | 15.13 | 25.56 | 0.133 | — |
+| outage | 256 | 30.00 | 5315.71 | 9.76 | 25.81 | 0.098 | 1.97 |
+| outage | 16,384 | 33.12 | 5707.39 | 9.66 | 27.16 | 1.071 | 2.02 |
+| restart | 256 | 31.01 | 5446.22 | 9.74 | 25.59 | 0.102 | 1.88 |
+| restart | 16,384 | 30.93 | 5434.70 | 9.50 | 27.08 | 1.071 | 2.06 |
 
 ### Linux inside Colima + container
 
 | Scenario | Blob bytes | Accept p95 ms | Commit p95 ms | Unique effects/s | Relay RSS MiB | DB+WAL+SHM MiB | Drain s |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| normal | 256 | 4.81 | 8.14 | 15.22 | 23.27 | 0.074 | — |
-| normal | 16,384 | 5.32 | 9.12 | 15.22 | 23.31 | 0.137 | — |
-| outage | 256 | 4.06 | 4188.73 | 13.31 | 23.29 | 0.090 | 0.37 |
-| outage | 16,384 | 4.58 | 4100.30 | 13.20 | 24.35 | 1.086 | 0.41 |
-| restart | 256 | 4.04 | 4204.11 | 13.29 | 23.26 | 0.090 | 0.34 |
-| restart | 16,384 | 3.73 | 4137.48 | 13.22 | 24.35 | 1.086 | 0.36 |
+| normal | 256 | 5.00 | 8.09 | 15.21 | 23.16 | 0.074 | — |
+| normal | 16,384 | 5.48 | 9.07 | 15.22 | 23.20 | 0.137 | — |
+| outage | 256 | 4.40 | 4150.48 | 13.25 | 23.20 | 0.094 | 0.39 |
+| outage | 16,384 | 4.58 | 4175.46 | 13.23 | 24.23 | 1.086 | 0.39 |
+| restart | 256 | 4.82 | 4201.35 | 13.15 | 23.18 | 0.090 | 0.38 |
+| restart | 16,384 | 3.93 | 4168.35 | 13.19 | 24.23 | 1.086 | 0.36 |
 
 These are separate environment measurements, not a cross-OS optimization result. Both use Python 3.12.14 and psutil 7.0.0. Native SQLite is 3.53.1 with 15 visible host CPUs; the guest uses SQLite 3.40.1 and four vCPUs. Filesystem, synchronization and memory accounting also differ. The container has a 4 GiB limit; the VM has 6 GiB configured RAM. Guest relay RSS excludes host VM overhead, and apparent DB sizes are not VM image allocation.
 
-native: maximum issue lag **5.41 ms**, maximum sample gap **15.75 ms**.
+native: maximum issue lag **8.81 ms**, maximum sample gap **21.46 ms**.
 
-linux: maximum issue lag **11.13 ms**, maximum sample gap **17.96 ms**.
+linux: maximum issue lag **5.41 ms**, maximum sample gap **18.84 ms**.
+
+The [workflow review](reviews/local-workflow-review/README.md) records the export cleanup fix, controller fault coverage, real cancellation probe and publication boundaries.
 
 ## Measurement boundaries
 

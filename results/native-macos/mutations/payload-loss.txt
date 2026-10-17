@@ -11,6 +11,6 @@ AssertionError: {'a': 'test'} != {'b': [2, 3], 'a': 'test'}
 + {'a': 'test', 'b': [2, 3]}
 
 ----------------------------------------------------------------------
-Ran 1 test in 0.555s
+Ran 1 test in 0.472s
 
 FAILED (failures=1)

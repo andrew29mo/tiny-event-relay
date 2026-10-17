@@ -1,10 +1,10 @@
-# Current native macOS evidence
+# Current native macOS validation
 
-Exact duplicate of `reviews/local-validation/native`, produced from the same immutable source snapshot as the Linux container. The dedicated Colima VM was stopped during this phase. The complete receipts verify 51 formal tests, five targeted mutations and 18 measured trials (1,080 matching unique effects).
+Copied from `reviews/local-validation-reviewed/native/`: 60 tests, five targeted mutations and 18 real trials / 1,080 matching event effects. The combined cross-platform receipt binds both environments to the same source/test list and planned workload. Linux guest results are separate.
 
 ```sh
 .venv/bin/python -m tools.check_validation results/native-macos
-.venv/bin/python -m tools.check_local reviews/local-validation
+.venv/bin/python -m tools.check_local reviews/local-validation-reviewed
 ```
 
-Source identity and complete test IDs are checked across both environments; portable logs have path normalization and original digests are retained in the dual-platform evidence directory. Linux VM performance/RSS is separate and must not be interpreted as native Linux or as a cross-OS speedup. Root README and the dual-platform HTML show current results; previous snapshots are explicitly historical.
+RSS covers sampled relay-process memory only; disk values are apparent DB/WAL/SHM lengths. The records do not establish power-cut durability or maximum throughput.

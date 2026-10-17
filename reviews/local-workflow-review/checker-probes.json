@@ -1,0 +1,57 @@
+{
+  "snapshot_sha256": "4b76d25f2086b3425068df43518ca3b905cfcd13c9ead10e50f6ccc30df7b52b",
+  "passed": true,
+  "scope": "tampered evidence copies, not VM failures",
+  "cases": [
+    {
+      "case": "missing-test",
+      "rejected": true,
+      "reason": "missing/failed/skipped formal tests"
+    },
+    {
+      "case": "timeout-zero-exit",
+      "rejected": true,
+      "reason": "failed/timed-out operation: linux-driver"
+    },
+    {
+      "case": "missing-driver",
+      "rejected": true,
+      "reason": "missing validation operation"
+    },
+    {
+      "case": "nonzero-container-exit",
+      "rejected": true,
+      "reason": "container outcome"
+    },
+    {
+      "case": "oom",
+      "rejected": true,
+      "reason": "container outcome"
+    },
+    {
+      "case": "leftover-container",
+      "rejected": true,
+      "reason": "owned container survived"
+    },
+    {
+      "case": "vm-still-running",
+      "rejected": true,
+      "reason": "VM stop contradicts list"
+    },
+    {
+      "case": "network-enabled",
+      "rejected": true,
+      "reason": "container isolation"
+    },
+    {
+      "case": "different-arrival-schedule",
+      "rejected": true,
+      "reason": "different workload parameters"
+    },
+    {
+      "case": "changed-overview",
+      "rejected": true,
+      "reason": "overview HTML mismatch"
+    }
+  ]
+}

@@ -1,9 +1,18 @@
 test_failed_export_retains_stopped_container (test_local.ContainerRecoveryTests.test_failed_export_retains_stopped_container) ... ok
 test_profile_inventory_ignores_unrelated_profiles (test_local.ContainerRecoveryTests.test_profile_inventory_ignores_unrelated_profiles) ... ok
 test_successful_export_precedes_container_removal (test_local.ContainerRecoveryTests.test_successful_export_precedes_container_removal) ... ok
+test_already_running_vm_is_not_stopped (test_local.ControllerFailureTests.test_already_running_vm_is_not_stopped) ... ok
+test_cleanup_failure_cannot_be_success (test_local.ControllerFailureTests.test_cleanup_failure_cannot_be_success) ... ok
+test_linux_attach_timeout_with_zero_container_exit_still_fails (test_local.ControllerFailureTests.test_linux_attach_timeout_with_zero_container_exit_still_fails) ... ok
+test_native_failure_never_starts_vm (test_local.ControllerFailureTests.test_native_failure_never_starts_vm) ... ok
+test_native_timeout_with_zero_exit_never_starts_vm (test_local.ControllerFailureTests.test_native_timeout_with_zero_exit_never_starts_vm) ... ok
+test_nonzero_and_oom_container_outcomes_fail (test_local.ControllerFailureTests.test_nonzero_and_oom_container_outcomes_fail) ... ok
+test_zero_exit_without_complete_receipts_cannot_pass (test_local.ControllerFailureTests.test_zero_exit_without_complete_receipts_cannot_pass) ... ok
 test_detached_child_after_successful_parent_is_reclaimed_and_failed (test_local.OuterProcessTests.test_detached_child_after_successful_parent_is_reclaimed_and_failed) ... ok
 test_nonzero_command_is_failed (test_local.OuterProcessTests.test_nonzero_command_is_failed) ... ok
 test_timeout_cannot_be_success_even_when_sigterm_exits_zero (test_local.OuterProcessTests.test_timeout_cannot_be_success_even_when_sigterm_exits_zero) ... ok
+test_copy_error_also_removes_partial_copy (test_local.RetentionFailureTests.test_copy_error_also_removes_partial_copy) ... ok
+test_failed_export_check_removes_partial_copy (test_local.RetentionFailureTests.test_failed_export_check_removes_partial_copy) ... ok
 test_snapshot_copies_exact_input_and_detects_later_edit (test_local.SnapshotTests.test_snapshot_copies_exact_input_and_detects_later_edit) ... ok
 test_snapshot_refuses_symlink_and_parent_escape (test_local.SnapshotTests.test_snapshot_refuses_symlink_and_parent_escape) ... ok
 test_429_delay_is_honored_up_to_cap (test_relay.NetworkTests.test_429_delay_is_honored_up_to_cap) ... ok
@@ -51,6 +60,6 @@ test_successful_parent_leaving_detached_child_is_failure (test_validation.Valida
 test_timeout_cannot_pass (test_validation.ValidationTests.test_timeout_cannot_pass) ... ok
 
 ----------------------------------------------------------------------
-Ran 51 tests in 21.294s
+Ran 60 tests in 20.946s
 
 OK

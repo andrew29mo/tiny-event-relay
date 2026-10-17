@@ -1,11 +1,17 @@
 # Same-source macOS / Linux validation
 
 ```sh
-./tools/validate-local --retain reviews/local-validation
-.venv/bin/python -m tools.check_local reviews/local-validation
+./tools/validate-local
+.venv/bin/python -m tools.check_local reviews/local-validation-reviewed
 ```
 
-Use a new retention directory for a later run. The raw directory defaults to an ignored timestamped `results/local/dual-*`; `--output` may name a fresh directory under `results/local/`. The wrapper bootstraps the project environment with Python 3.12 when needed and installs the pinned measurement dependency. Set `TINY_EVENT_PYTHON` to an installed Python 3.12 interpreter if it is not on PATH. Docker CLI/buildx must be installed; the existing Docker Desktop application binaries can be reused without running Docker Desktop. Pinned official Colima/Lima binaries are installed under ignored local storage and verified before use.
+The first command runs a new validation into ignored local storage; the second checks the already committed reviewed evidence. To export a new successful run, use a fresh retention directory, for example:
+
+```sh
+./tools/validate-local --retain "reviews/local-validation-$(date -u +%Y%m%dT%H%M%SZ)"
+```
+
+An existing retained directory is never overwritten. The raw directory defaults to an ignored timestamped `results/local/dual-*`; `--output` may name a fresh directory under `results/local/`. The wrapper bootstraps the project environment with Python 3.12 when needed and installs the pinned measurement dependency. Set `TINY_EVENT_PYTHON` to an installed Python 3.12 interpreter if it is not on PATH. Docker CLI/buildx must be installed; the existing Docker Desktop application binaries can be reused without running Docker Desktop. Pinned official Colima/Lima binaries are installed under ignored local storage and verified before use.
 
 ## What actually runs
 
@@ -27,11 +33,11 @@ The outer lifecycle executor bounds subprocesses and reclaims cooperative same-u
 - `report.html`: separate native and Linux-in-VM tables. No cross-OS speedup/RSS ratio.
 - `original-digests.json`: pre-normalization hashes. Export replaces repo/home/temp/evidence paths and URL credentials, then rebinds changed log hashes and validates the exported copy. It is a consistency receipt, not a signed independent attestation.
 
-No environments, source build contexts, downloaded archives, VM disks, live spools or container images are exported. VM disks/images and verified toolchain caches deliberately remain local for reuse; successful cleanup means the owned workload/container is gone and the owned VM is stopped, not that all cache storage is erased. Raw failed runs stay under ignored local output; a failed run is not promoted to the retained success directory.
+No environments, source build contexts, downloaded archives, VM disks, live spools or container images are exported. VM disks/images and verified toolchain caches deliberately remain local for reuse; successful cleanup means the owned workload/container is gone and the owned VM is stopped, not that all cache storage is erased. Failed exports remove their partial tree (also Git-ignored) and never replace an existing retained target. Raw failed runs stay under ignored local output; a failed run is not promoted to the retained success directory.
 
 ## Interpretation
 
-The initial retained run executes **51 identical tests and five mutations per environment**, plus 36 trials / 2,160 matching committed effects in total. Native and Linux results are different environments, not an OS-performance comparison: SQLite versions differ (3.53.1 vs 3.40.1), visible host CPUs differ from the 4-vCPU guest, and storage/fsync/allocator accounting differs. Both use Python 3.12.14 and psutil 7.0.0. This host is ARM64; Intel assets are pinned but not exercised here.
+The reviewed retained run executes **60 identical tests and five mutations per environment**, plus 36 trials / 2,160 matching committed effects in total. Native and Linux results are different environments, not an OS-performance comparison: SQLite versions differ (3.53.1 vs 3.40.1), visible host CPUs differ from the 4-vCPU guest, and storage/fsync/allocator accounting differs. Both use Python 3.12.14 and psutil 7.0.0. This host is ARM64; Intel assets are pinned but not exercised here.
 
 RSS is the relay process's sampled resident memory during the experiment; Linux RSS is inside the guest/container and excludes host VM overhead. DB/WAL/SHM values are apparent file lengths, not filesystem allocation, bytes written or host VM-disk growth. The first process starts before measurement; restart startup is inside the window. Short peaks can be missed despite coverage/gap checks. VM configured RAM is not measured host VM RSS. Unrelated host load is uncontrolled.
 

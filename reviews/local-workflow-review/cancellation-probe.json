@@ -1,0 +1,18 @@
+{
+  "experiment": "SIGTERM during native measurement, before Colima start; cancelled run excluded from successful aggregates",
+  "pre_fix_snapshot_sha256": "c8ac4fbb8efc5b87a19dbdac8697b55b4f9c8eee78ee8f222738644cacf2f20f",
+  "raw_combined_sha256": "281778d835dd8f24737e877ee43691f75545b567b19c49c89bd82da46a77a826",
+  "outer_exit_code": 130,
+  "outer_status": "failed",
+  "outer_error_type": "KeyboardInterrupt",
+  "native_driver_status": "interrupted",
+  "nested_suite_status": "failed",
+  "vm_start_attempted": false,
+  "cleanup": {
+    "container": "not-created",
+    "vm": "not-started",
+    "errors": []
+  },
+  "remaining_processes_using_owned_environment": 0,
+  "limitation": "Actual cancellation was before VM start; container timeout/OOM/cleanup failure branches use mocked infrastructure in formal controller tests."
+}

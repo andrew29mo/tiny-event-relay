@@ -1,3 +1,7 @@
+# Historical 51-test run of ce620dc
+
+This directory preserves the first cross-platform run. Its checker must be used from that revision; current 60-test evidence is in `../local-validation-reviewed/`.
+
 # Retained local cross-platform validation
 
 This is a completed native macOS / Colima Linux run, not a remote CI result. Start with [the separate environment tables](report.html) and [the combined receipt](combined.json). Recheck against the current source with:

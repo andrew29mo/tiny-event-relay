@@ -9,3 +9,4 @@ AGENTS.md
 results/local/
 dist/
 *.egg-info/
+*.partial-*/
