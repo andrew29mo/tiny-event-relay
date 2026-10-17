@@ -1,0 +1,405 @@
+{
+  "schema": 1,
+  "status": "passed",
+  "created_utc": "2026-10-17T04:45:28.220727+00:00",
+  "operations": {
+    "initial-vm-state": {
+      "status": "passed",
+      "exit_code": 0,
+      "elapsed_s": 0.23615066700040188,
+      "log": "initial-vm-state.txt",
+      "log_sha256": "8836227b2836d59b6618147c47a5efe2e12e8bcaf16833f0fde13b1bb2839498",
+      "reclaimed_orphans": 0,
+      "command": [
+        "<repo>/results/local/toolchain/bin/colima",
+        "list",
+        "--json"
+      ]
+    },
+    "base-commit": {
+      "status": "passed",
+      "exit_code": 0,
+      "elapsed_s": 0.020570583999869996,
+      "log": "base-commit.txt",
+      "log_sha256": "2f716e707d2827391e434be5a170d9b32d978d00e6f097d7e3ed1db0304bdf12",
+      "reclaimed_orphans": 0,
+      "command": [
+        "git",
+        "rev-parse",
+        "HEAD"
+      ]
+    },
+    "native-venv": {
+      "status": "passed",
+      "exit_code": 0,
+      "elapsed_s": 1.6352575000000797,
+      "log": "native-venv.txt",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "reclaimed_orphans": 0,
+      "command": [
+        "<repo>/.venv/bin/python",
+        "-m",
+        "venv",
+        "<evidence>/native-env"
+      ]
+    },
+    "native-install": {
+      "status": "passed",
+      "exit_code": 0,
+      "elapsed_s": 0.7335886670007312,
+      "log": "native-install.txt",
+      "log_sha256": "249b09f7263ab39bbb2b0ff9a0e58a537a0f1555b764312402c2003b1a171f23",
+      "reclaimed_orphans": 0,
+      "command": [
+        "<evidence>/native-env/bin/python",
+        "-m",
+        "pip",
+        "install",
+        "-r",
+        "requirements-dev.txt"
+      ]
+    },
+    "native-driver": {
+      "status": "passed",
+      "exit_code": 0,
+      "elapsed_s": 132.15403612500086,
+      "log": "native-driver.txt",
+      "log_sha256": "914601ff7d4a215edc462daf7efa0aff0d66ded8da1da0b1bfb0f2992355c26d",
+      "reclaimed_orphans": 0,
+      "command": [
+        "<evidence>/native-env/bin/python",
+        "-m",
+        "tools.validate",
+        "--output",
+        "<evidence>/native",
+        "--execution-label",
+        "native-macos"
+      ]
+    },
+    "vm-start": {
+      "status": "passed",
+      "exit_code": 0,
+      "elapsed_s": 9.172946832999514,
+      "log": "vm-start.txt",
+      "log_sha256": "7b6f058d8f4717d4710c42bff9c4a28b2d5573f7f67c770303881896bd96f95c",
+      "reclaimed_orphans": 0,
+      "command": [
+        "<repo>/results/local/toolchain/bin/colima",
+        "start",
+        "relay",
+        "--cpu",
+        "4",
+        "--memory",
+        "6",
+        "--disk",
+        "30",
+        "--vm-type",
+        "vz",
+        "--runtime",
+        "docker",
+        "--mount",
+        "none",
+        "--activate=false",
+        "--ssh-config=false",
+        "--ssh-agent=false",
+        "--vz-rosetta=false",
+        "--binfmt=false"
+      ]
+    },
+    "docker-info": {
+      "status": "passed",
+      "exit_code": 0,
+      "elapsed_s": 0.17515787499905855,
+      "log": "docker-info.txt",
+      "log_sha256": "bfa67e981c63521e53b09482bb1703227a76c1d891075bda6fd8472413bbbcb4",
+      "reclaimed_orphans": 0,
+      "command": [
+        "<repo>/results/local/toolchain/bin/docker",
+        "info",
+        "--format",
+        "{{json .}} "
+      ]
+    },
+    "colima-version": {
+      "status": "passed",
+      "exit_code": 0,
+      "elapsed_s": 0.28799487499964016,
+      "log": "colima-version.txt",
+      "log_sha256": "1e2b405deba8d7c74cd2004a8cbefd7ee17b208a6b03bfc4ebf59ddfc2f20299",
+      "reclaimed_orphans": 0,
+      "command": [
+        "<repo>/results/local/toolchain/bin/colima",
+        "version"
+      ]
+    },
+    "lima-version": {
+      "status": "passed",
+      "exit_code": 0,
+      "elapsed_s": 0.039274959000977105,
+      "log": "lima-version.txt",
+      "log_sha256": "cc3d40a6c7ac3172ad74fd8735aafa70e78c2d3b8bc9d866e05bacb39412cd07",
+      "reclaimed_orphans": 0,
+      "command": [
+        "<repo>/results/local/toolchain/bin/limactl",
+        "--version"
+      ]
+    },
+    "image-build": {
+      "status": "passed",
+      "exit_code": 0,
+      "elapsed_s": 3.944046167000124,
+      "log": "image-build.txt",
+      "log_sha256": "97fc073ce801ec47d9446df49fed857d488c6323fe038091a2de61e6ff4bab25",
+      "reclaimed_orphans": 0,
+      "command": [
+        "<repo>/results/local/toolchain/bin/docker",
+        "build",
+        "--load",
+        "--label",
+        "tiny-event.snapshot=0deabeba5a4ea4bf6a7199a976432a88aa993ea25232160767a05e105de4f49f",
+        "-t",
+        "tiny-event-validation:f97ef1274fdb44779ad72934b16fa3c4",
+        "<evidence>/context"
+      ]
+    },
+    "image-info": {
+      "status": "passed",
+      "exit_code": 0,
+      "elapsed_s": 0.03828504200100724,
+      "log": "image-info.txt",
+      "log_sha256": "731a6dc26566bb4de1cc21b45ff37f87b7bdf15ce5c3f41e03815bb8e3c229f2",
+      "reclaimed_orphans": 0,
+      "command": [
+        "<repo>/results/local/toolchain/bin/docker",
+        "image",
+        "inspect",
+        "tiny-event-validation:f97ef1274fdb44779ad72934b16fa3c4"
+      ]
+    },
+    "container-create": {
+      "status": "passed",
+      "exit_code": 0,
+      "elapsed_s": 0.07164833400020143,
+      "log": "container-create.txt",
+      "log_sha256": "46a197b304062f04d5ab2e008014b58f2136cec59099ca949269ebf63aa21700",
+      "reclaimed_orphans": 0,
+      "command": [
+        "<repo>/results/local/toolchain/bin/docker",
+        "create",
+        "--name",
+        "tiny-event-validation-f97ef1274fdb44779ad72934b16fa3c4",
+        "--label",
+        "tiny-event.validation.run=f97ef1274fdb44779ad72934b16fa3c4",
+        "--init",
+        "--network",
+        "none",
+        "--cap-drop",
+        "ALL",
+        "--security-opt",
+        "no-new-privileges",
+        "--cpus",
+        "4",
+        "--memory",
+        "4g",
+        "sha256:c2b4739ba607c633f13cbf20180458ce9b3301c35670110fb80fb73f8f027bf0",
+        "--output",
+        "/evidence/run",
+        "--execution-label",
+        "colima-linux"
+      ]
+    },
+    "container-info": {
+      "status": "passed",
+      "exit_code": 0,
+      "elapsed_s": 0.018908416999693145,
+      "log": "container-info.txt",
+      "log_sha256": "bff68785d77ad5589fe22e7636524600007b8327a97612af2e4dc0e685efe3de",
+      "reclaimed_orphans": 0,
+      "command": [
+        "<repo>/results/local/toolchain/bin/docker",
+        "inspect",
+        "tiny-event-validation-f97ef1274fdb44779ad72934b16fa3c4"
+      ]
+    },
+    "linux-driver": {
+      "status": "passed",
+      "exit_code": 0,
+      "elapsed_s": 104.71913450000102,
+      "log": "linux-driver.txt",
+      "log_sha256": "914601ff7d4a215edc462daf7efa0aff0d66ded8da1da0b1bfb0f2992355c26d",
+      "reclaimed_orphans": 0,
+      "command": [
+        "<repo>/results/local/toolchain/bin/docker",
+        "start",
+        "--attach",
+        "tiny-event-validation-f97ef1274fdb44779ad72934b16fa3c4"
+      ]
+    },
+    "container-exit": {
+      "status": "passed",
+      "exit_code": 0,
+      "elapsed_s": 0.07669958299993596,
+      "log": "container-exit.txt",
+      "log_sha256": "f6a5b90852de524c710f4afafd0fece67eb627017267e6b61ce20f1aeb4ed2a1",
+      "reclaimed_orphans": 0,
+      "command": [
+        "<repo>/results/local/toolchain/bin/docker",
+        "inspect",
+        "tiny-event-validation-f97ef1274fdb44779ad72934b16fa3c4"
+      ]
+    },
+    "linux-export": {
+      "status": "passed",
+      "exit_code": 0,
+      "elapsed_s": 0.06905633399946964,
+      "log": "linux-export.txt",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "reclaimed_orphans": 0,
+      "command": [
+        "<repo>/results/local/toolchain/bin/docker",
+        "cp",
+        "tiny-event-validation-f97ef1274fdb44779ad72934b16fa3c4:/evidence/run",
+        "<evidence>/linux"
+      ]
+    },
+    "cleanup-owned": {
+      "status": "passed",
+      "exit_code": 0,
+      "elapsed_s": 0.019296915999802877,
+      "log": "cleanup-owned.txt",
+      "log_sha256": "dd516fcd24a30ae6fc6b17ec0130184b0bd4c31024155cbeb50a65c95bcc7cbf",
+      "reclaimed_orphans": 0,
+      "command": [
+        "<repo>/results/local/toolchain/bin/docker",
+        "ps",
+        "-aq",
+        "--filter",
+        "label=tiny-event.validation.run=f97ef1274fdb44779ad72934b16fa3c4"
+      ]
+    },
+    "cleanup-inspect": {
+      "status": "passed",
+      "exit_code": 0,
+      "elapsed_s": 0.01823708399933821,
+      "log": "cleanup-inspect.txt",
+      "log_sha256": "f6a5b90852de524c710f4afafd0fece67eb627017267e6b61ce20f1aeb4ed2a1",
+      "reclaimed_orphans": 0,
+      "command": [
+        "<repo>/results/local/toolchain/bin/docker",
+        "inspect",
+        "0951c3f6af01"
+      ]
+    },
+    "cleanup-remove": {
+      "status": "passed",
+      "exit_code": 0,
+      "elapsed_s": 0.03819400000065798,
+      "log": "cleanup-remove.txt",
+      "log_sha256": "dd516fcd24a30ae6fc6b17ec0130184b0bd4c31024155cbeb50a65c95bcc7cbf",
+      "reclaimed_orphans": 0,
+      "command": [
+        "<repo>/results/local/toolchain/bin/docker",
+        "rm",
+        "0951c3f6af01"
+      ]
+    },
+    "cleanup-remaining": {
+      "status": "passed",
+      "exit_code": 0,
+      "elapsed_s": 0.018286415999682504,
+      "log": "cleanup-remaining.txt",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "reclaimed_orphans": 0,
+      "command": [
+        "<repo>/results/local/toolchain/bin/docker",
+        "ps",
+        "-aq",
+        "--filter",
+        "label=tiny-event.validation.run=f97ef1274fdb44779ad72934b16fa3c4"
+      ]
+    },
+    "vm-stop": {
+      "status": "passed",
+      "exit_code": 0,
+      "elapsed_s": 2.657057332999102,
+      "log": "vm-stop.txt",
+      "log_sha256": "fa2d5634049fd35df5dbec9e6c1b16fe78ea504dd2d5a0189f0675d3995dda72",
+      "reclaimed_orphans": 0,
+      "command": [
+        "<repo>/results/local/toolchain/bin/colima",
+        "stop",
+        "relay"
+      ]
+    },
+    "final-vm-state": {
+      "status": "passed",
+      "exit_code": 0,
+      "elapsed_s": 0.29107645799922466,
+      "log": "final-vm-state.txt",
+      "log_sha256": "8836227b2836d59b6618147c47a5efe2e12e8bcaf16833f0fde13b1bb2839498",
+      "reclaimed_orphans": 0,
+      "command": [
+        "<repo>/results/local/toolchain/bin/colima",
+        "list",
+        "--json"
+      ]
+    }
+  },
+  "scope": "Native macOS and Colima Linux VM are separate measurements; no cross-OS speedup or RSS ratio.",
+  "initial_vm_state": "Stopped",
+  "input_files": {
+    "pyproject.toml": "7ea414d929c7b22b59f002c54f766c81180f64c3645908037e9849f5d8500a82",
+    "relay/__init__.py": "47999de61a17b1edc77541a4fe63858e08d8574d431c37095f30a875a2cad765",
+    "relay/__main__.py": "c496dc9b591a9e51e2f7b966ed5e77da5479a49653f8c03db8e97d84932369ae",
+    "relay/httpio.py": "a7c023b123e6dab793ca26e977e9775b444aabb764108e52c8727c351f12ae49",
+    "relay/service.py": "df6a47c836c16c2fcb7613b4233e52992deae4098e7ae3ac34276590337b9735",
+    "relay/store.py": "4cbe3e82f7883f332921a7f63b4e718983c4b711511eac9db43e3144a89a127d",
+    "requirements-dev.txt": "b6c8d86768d07e1dae4fb734c2e93997445a318d43290b307bfc1c800a0b1e52",
+    "tests/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/support.py": "22bf682646a06999dde0193c672e6169b3219996049c6cf4e889d799f9b37d44",
+    "tests/test_local.py": "286569f84617d5b8782760490b052591ed2b6aa75ebbc26db3431c3abebd3236",
+    "tests/test_relay.py": "9730247ec0bd3ba9a3d2c032db1ebd7830750e554f0738e15931d12f594cd184",
+    "tests/test_reports.py": "3f6937659bc3a1681270b73c8f29dc7f012174d679e1c86fa76216eff13b3926",
+    "tests/test_review.py": "ac60444ca788d5cc67b1eff6cc56ba21aef84ba679cdfba72f10e34d863559b3",
+    "tests/test_validation.py": "6fe81afe1524702690ef4f7420496a7dfb9db6a539581e6a7b011f33f878caa4",
+    "tests/validation_child.py": "8cd29272c635156f7b4afbcf03ab5fd8dc060d1449395949b0948540f18b7d9d",
+    "tools/__init__.py": "625aec0086a26c27c93501f12c89d50167eaae272039ad596015c3a381977a3e",
+    "tools/benchmark.py": "a6f5d93243234ed5ff2d774cacecde2cc91cf72cbd06c54ebbee680ffd72739a",
+    "tools/check_local.py": "4f161809d33029e61a7632b2a60374c9b16bbc24403a56591ea2da44485dc3a1",
+    "tools/check_report.py": "4a447ef19c8ef1467b3f375799c16d1ab848d4630b42776a9012799a073fb869",
+    "tools/check_validation.py": "d7b25ecfe842a249c6eb345888ca083891d99cee14173d225def9120afa09f1d",
+    "tools/evidence.py": "05e3c61e2547cd737c22dadea9343a9a5fead9607c0027b9385f9d171a317b51",
+    "tools/install_colima.py": "8eed3adcf27aabc1ba14cf6d685fead9615ea36e2a4fa041fc127a6d75989962",
+    "tools/mutation_check.py": "c87d160f704e8b1d94d530645e15b991e1838fe7d41af54fd1ac1b48e16f0ee2",
+    "tools/platform_io.py": "c45533803edafbbb13163960697eb58afa7d14522848850e1af57c5a5ec3726b",
+    "tools/receiver.py": "e5831a515546325ed3c6a9a52101869d3da9fc699f166cf24873e1024f9ddb87",
+    "tools/retain_validation.py": "7aa055f9d5794ce6d7c616cd0c6b38b475c660a495f4756edd232229e83a8d1e",
+    "tools/test_suite.py": "82d5a302cf865e30d645dfc48f5a0bf7850537c0693a738a777de3d7a320814e",
+    "tools/validate.py": "88225b34285039af5c9de58d71645ef5e4f5f3a1e9b5ef7e7b4bd5ebbb01625d",
+    "tools/validate_local.py": "2cf0d6107d8ae0fe7ce8487062a331205df6b4c3831298018ad9634f9dea4652",
+    "tools/validation_process.py": "f0ab6b6b9fbcbb54b1730dc40e2951037cead09b4aeb307df314986eca1f56b1",
+    "containers/validation.Dockerfile": "40a6cb0ce3c1bc625f1373e6f6636e36290665b5f5f356656a696cbe4732b615",
+    "tools/colima-lock.json": "fa62b8a598a02cae7425fae3b016e820074784197421a0f4c13d2b848167702d",
+    "tools/validate-local": "ef732f2e8831bdbec6d4d5275cef26b052647bd0b4a25c2d0354e29d05bb1537",
+    "LICENSE": "0a5f48c5847660a83b6372cf47ef20c88bc20a0ae051dcc623707d081d8ad504",
+    "THIRD_PARTY_NOTICES.md": "2007680f2b361e221c9a704629b04139ff368def6477eb9bfa857197a6abe689"
+  },
+  "snapshot_sha256": "0deabeba5a4ea4bf6a7199a976432a88aa993ea25232160767a05e105de4f49f",
+  "base_commit": "aa125e627f4029abcc1cb20cda2fc5c1ef1f8f9a",
+  "linux_runtime_sha256": "d359cff5a191bcfe37e73e641c8af18fe22eb7f3f651fe5bed8ab34847444736",
+  "container_exit": {
+    "Running": false,
+    "ExitCode": 0,
+    "OOMKilled": false,
+    "Error": ""
+  },
+  "cleanup": {
+    "container": "removed",
+    "vm": "stopped",
+    "errors": []
+  },
+  "redaction": {
+    "paths": "repo/home/temp/evidence placeholders",
+    "original_sha256_file": "original-digests.json"
+  }
+}

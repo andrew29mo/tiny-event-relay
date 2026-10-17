@@ -10,3 +10,4 @@ results/local/
 dist/
 *.egg-info/
 *.partial-*/
+build/

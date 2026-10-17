@@ -2,7 +2,7 @@
 
 ```sh
 ./tools/validate-local
-.venv/bin/python -m tools.check_local reviews/local-validation-reviewed
+.venv/bin/python -m tools.check_local reviews/local-validation-mit
 ```
 
 The first command runs a new validation into ignored local storage; the second checks the already committed reviewed evidence. To export a new successful run, use a fresh retention directory, for example:
@@ -16,7 +16,7 @@ An existing retained directory is never overwritten. The raw directory defaults 
 ## What actually runs
 
 1. Acquire an exclusive project validation lock. Refuse an already-running dedicated `relay` VM; do not take over someone else's running profile.
-2. Inventory the tracked runtime, tools, tests, requirements and explicit setup files. New source files must be staged/tracked. Copy these bytes to an isolated workspace, bind their hashes, and verify before/after execution. The Git base commit is recorded separately: the input manifest, rather than an assertion about an unchanged HEAD tree, identifies the actual bytes tested.
+2. Inventory the tracked runtime, tools, tests, requirements, explicit setup files and project license/notice files. New source files must be staged/tracked. Copy these bytes to an isolated workspace, bind their hashes, and verify before/after execution. The Git base commit is recorded separately: the input manifest, rather than an assertion about an unchanged HEAD tree, identifies the actual bytes tested.
 3. Create a fresh native Python environment. Run the complete production CLI tests, five targeted mutations, 18 real measurement trials and report checks while the owned VM is stopped.
 4. Start a project-specific Colima home/profile with 4 vCPU and 6 GiB RAM, native architecture, no Rosetta/binfmt emulation or host mounts. Do not activate a global Docker context. Use a project-local Docker configuration/socket.
 5. Build the pinned official Python 3.12.14 container from the same source snapshot. Run the identical driver as a non-root user, with an init process, no external network or host mounts, 4 CPU quota and 4 GiB memory. SQLite temporary databases use the container filesystem, not a host bind or tmpfs substitute.

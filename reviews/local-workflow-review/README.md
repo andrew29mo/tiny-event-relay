@@ -1,3 +1,7 @@
+# Historical pre-MIT workflow review (aa125e6)
+
+This review records the license and repository state at that revision. The project subsequently adopted MIT; see `../../LICENSE` and `../../THIRD_PARTY_NOTICES.md`. Original runtime evidence remains unchanged; current source-bound evidence is in `../local-validation-mit/`.
+
 # Local validation and pre-publication review (2026-10-17)
 
 Repository: tiny-event-relay. Keep Private; no project license decision or visibility change is part of this review.

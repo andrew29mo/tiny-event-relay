@@ -9,7 +9,7 @@ from .check_validation import check_validation
 from .evidence import ROOT,source_manifest
 from .platform_io import sha,fingerprint
 
-SETUP = ("containers/validation.Dockerfile","tools/colima-lock.json","tools/validate-local")
+SETUP = ("containers/validation.Dockerfile","tools/colima-lock.json","tools/validate-local","LICENSE","THIRD_PARTY_NOTICES.md")
 ALIASES = {"arm64":"arm64","aarch64":"arm64","x86_64":"x86_64","amd64":"x86_64"}
 
 

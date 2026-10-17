@@ -60,6 +60,6 @@ test_successful_parent_leaving_detached_child_is_failure (test_validation.Valida
 test_timeout_cannot_pass (test_validation.ValidationTests.test_timeout_cannot_pass) ... ok
 
 ----------------------------------------------------------------------
-Ran 60 tests in 20.946s
+Ran 60 tests in 20.922s
 
 OK

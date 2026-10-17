@@ -2,6 +2,8 @@
 name = "tiny-event-relay"
 version = "0.1.0"
 description = "A bounded, durable local HTTP event relay"
+license = "MIT"
+license-files = ["LICENSE", "THIRD_PARTY_NOTICES.md"]
 requires-python = ">=3.12"
 dependencies = []
 
@@ -9,7 +11,7 @@ dependencies = []
 tiny-event-relay = "relay.__main__:main"
 
 [build-system]
-requires = ["setuptools>=68"]
+requires = ["setuptools>=77.0.3"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]

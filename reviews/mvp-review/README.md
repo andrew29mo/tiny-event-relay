@@ -4,7 +4,7 @@ The findings below describe the prior 43-test review. Its native receipts are no
 
 # MVP review (2026-10-17)
 
-Scope: production acceptance/delivery, restart ownership and claim tokens, bounded admission and dedup retention, tests exercising that implementation, measurement fairness and retained evidence. Repository remains Private, with no project license selected.
+Scope: production acceptance/delivery, restart ownership and claim tokens, bounded admission and dedup retention, tests exercising that implementation, measurement fairness and retained evidence. Repository remains Private, with no project license selected at that historical revision (MIT was adopted later).
 
 ## Findings and changes
 

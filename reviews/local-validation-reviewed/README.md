@@ -1,3 +1,7 @@
+# Historical pre-MIT run (aa125e6)
+
+Use that revision’s checker for these unchanged receipts. Current MIT metadata and license-bound source evidence is in `../local-validation-mit/`.
+
 # Reviewed same-source macOS / Linux validation
 
 Both environments passed the same **60 tests and five targeted mutations**, then completed 18 trials / 1,080 matching committed effects each. Source bytes, test IDs, planned arrival offsets and payload hashes match. No completed trial is omitted.

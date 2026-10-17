@@ -1,0 +1,49 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 470B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/python:3.12.14-slim-bookworm@sha256:392307d22300de8b5986851a12d9176dfc0fc073e65bf6523ebd7dcbeb23564e
+#2 DONE 1.2s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/4] FROM docker.io/library/python:3.12.14-slim-bookworm@sha256:392307d22300de8b5986851a12d9176dfc0fc073e65bf6523ebd7dcbeb23564e
+#4 resolve docker.io/library/python:3.12.14-slim-bookworm@sha256:392307d22300de8b5986851a12d9176dfc0fc073e65bf6523ebd7dcbeb23564e done
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 294.39kB done
+#5 DONE 0.0s
+
+#6 [2/4] WORKDIR /workspace
+#6 CACHED
+
+#7 [3/4] COPY workspace /workspace
+#7 DONE 0.0s
+
+#8 [4/4] RUN python -m pip install --no-cache-dir -r requirements-dev.txt     && useradd --uid 10001 --create-home validator     && mkdir /evidence && chown -R validator:validator /workspace /evidence
+#8 1.520 Collecting psutil==7.0.0 (from -r requirements-dev.txt (line 1))
+#8 1.704   Downloading psutil-7.0.0-cp36-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl.metadata (22 kB)
+#8 1.759 Downloading psutil-7.0.0-cp36-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl (279 kB)
+#8 1.879 Installing collected packages: psutil
+#8 1.961 Successfully installed psutil-7.0.0
+#8 1.961 WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+#8 2.158 
+#8 2.158 [notice] A new release of pip is available: 25.0.1 -> 26.2.1
+#8 2.158 [notice] To update, run: pip install --upgrade pip
+#8 DONE 2.3s
+
+#9 exporting to image
+#9 exporting layers
+#9 exporting layers 0.2s done
+#9 exporting manifest sha256:c0338121c492b1798d2aa29a7f9bb4560448dae99d23e1b6b563e6fcdfb9571b done
+#9 exporting config sha256:f92571f65071530f58e6ed99b8957d40006ede4bde787269bc6db0ec6a8921b2 done
+#9 exporting attestation manifest sha256:d2d8c7d60081b2e54c77a5bae26ff49b05c14a2f00b95be30ebf54857b2a0c48 done
+#9 exporting manifest list sha256:c2b4739ba607c633f13cbf20180458ce9b3301c35670110fb80fb73f8f027bf0 done
+#9 naming to docker.io/library/tiny-event-validation:f97ef1274fdb44779ad72934b16fa3c4 done
+#9 unpacking to docker.io/library/tiny-event-validation:f97ef1274fdb44779ad72934b16fa3c4 0.0s done
+#9 DONE 0.3s

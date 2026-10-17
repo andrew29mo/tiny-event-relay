@@ -1,0 +1,34 @@
+{
+  "checked_on": "2026-10-17",
+  "runtime_external_absolute_imports": [],
+  "development_requirements": [
+    "psutil==7.0.0"
+  ],
+  "review_scope": "Original project code under MIT; separately installed components keep their terms, none vendored in project wheel.",
+  "versioned_components": [
+    {
+      "name": "psutil",
+      "version": "7.0.0",
+      "license": "BSD-3-Clause",
+      "source": "https://github.com/giampaolo/psutil/blob/release-7.0.0/LICENSE"
+    },
+    {
+      "name": "Colima",
+      "version": "0.10.3",
+      "license": "MIT",
+      "source": "https://github.com/abiosoft/colima/blob/v0.10.3/LICENSE"
+    },
+    {
+      "name": "Lima",
+      "version": "2.2.1",
+      "license": "Apache-2.0",
+      "source": "https://github.com/lima-vm/lima/blob/v2.2.1/LICENSE"
+    },
+    {
+      "name": "setuptools",
+      "version": "84.0.0 (actual wheel builder)",
+      "license": "MIT, with separately governed vendored components",
+      "source": "https://github.com/pypa/setuptools/blob/v84.0.0/LICENSE"
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+step 1/4: tools.test_suite
+step 2/4: tools.mutation_check
+step 3/4: tools.benchmark
+step 4/4: tools.check_report

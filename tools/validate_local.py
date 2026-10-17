@@ -15,7 +15,7 @@ from .install_colima import install
 from .platform_io import sha,save,fingerprint
 from .validation_process import execute,cancellation_signals,cleanup_signals
 
-SETUP = ("containers/validation.Dockerfile","tools/colima-lock.json","tools/validate-local")
+SETUP = ("containers/validation.Dockerfile","tools/colima-lock.json","tools/validate-local","LICENSE","THIRD_PARTY_NOTICES.md")
 
 
 def inventory():

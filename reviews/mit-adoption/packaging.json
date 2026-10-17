@@ -1,0 +1,32 @@
+{
+  "wheel": "tiny_event_relay-0.1.0-py3-none-any.whl",
+  "sha256": "484825bfd94a91dfaa3c2651bf22d58759a12444455553c601eb4fa94a099da8",
+  "size_bytes": 12850,
+  "license_expression": "MIT",
+  "license_file_sha256": {
+    "LICENSE": "0a5f48c5847660a83b6372cf47ef20c88bc20a0ae051dcc623707d081d8ad504",
+    "THIRD_PARTY_NOTICES.md": "2007680f2b361e221c9a704629b04139ff368def6477eb9bfa857197a6abe689"
+  },
+  "runtime_dependency_requirements": [],
+  "runtime_files_match_checkout": {
+    "relay/__init__.py": "47999de61a17b1edc77541a4fe63858e08d8574d431c37095f30a875a2cad765",
+    "relay/__main__.py": "c496dc9b591a9e51e2f7b966ed5e77da5479a49653f8c03db8e97d84932369ae",
+    "relay/httpio.py": "a7c023b123e6dab793ca26e977e9775b444aabb764108e52c8727c351f12ae49",
+    "relay/service.py": "df6a47c836c16c2fcb7613b4233e52992deae4098e7ae3ac34276590337b9735",
+    "relay/store.py": "4cbe3e82f7883f332921a7f63b4e718983c4b711511eac9db43e3144a89a127d"
+  },
+  "build_generator": [
+    "Wheel-Version: 1.0",
+    "Generator: setuptools (84.0.0)",
+    "Root-Is-Purelib: true",
+    "Tag: py3-none-any",
+    ""
+  ],
+  "no_vendored_third_party_or_vm_artifacts": true,
+  "isolated_install_exit_code": 0,
+  "installed_console_help_exit_code": 0,
+  "console_probe_working_directory": "outside source checkout",
+  "setuptools_actual_license_source": "https://github.com/pypa/setuptools/blob/v84.0.0/LICENSE",
+  "dual_snapshot_sha256": "0deabeba5a4ea4bf6a7199a976432a88aa993ea25232160767a05e105de4f49f",
+  "license_files_match_validation_snapshot": true
+}
