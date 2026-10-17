@@ -12,4 +12,12 @@ Queue admission limits are not an operating-system quota or total process memory
 
 HTTP attempts have a socket timeout and a watchdog that closes established sockets at the configured deadline. OS hostname resolution can outlive that deadline and delay shutdown; use a numeric IP for a strictly local MVP deployment. This is not a hardened Internet HTTP server.
 
-For security concerns, contact the repository owner privately; do not publish sensitive payloads or credentials in issues.
+For security concerns, use **Report a vulnerability** in the repository’s [Security tab](https://github.com/andrew29mo/tiny-event-relay/security). Private vulnerability reporting is enabled. Do not publish sensitive payloads or credentials in issues.
+
+## Repository protections
+
+The public repository uses secret scanning and push protection, Dependabot alerts/security updates and weekly pip/Actions version checks. Actions are limited to checkout/setup-python with full commit SHA pinning, a read-only default token, no PR-review approval permission, and approval required for all external contributors. The workflow does not use `pull_request_target` or persist checkout credentials.
+
+Active main rules forbid deletion and force-push with no bypass. A separate rule requires the two GitHub Actions OS checks; repository administrators may bypass that CI rule to preserve the solo-maintainer workflow. No mandatory second reviewer is configured. This is an explicit maintainer exception, not a claim that every direct maintainer push is gated by completed CI. Only the owner has repository collaborator access at the release check. Administrators can change repository settings; these controls are not immutable.
+
+See the timestamped [public release check](reviews/public-release/README.md) for the read-back configuration. Scanner coverage is limited to supported patterns; enabling scanning does not prove that every possible secret or vulnerability is absent. These repository controls do not change the local-service authentication/deployment boundaries above.

@@ -175,3 +175,5 @@ Native macOS and Linux-in-Colima measurements are reported separately. Linux rel
 Single local process, one worker, one configured destination. No strict delivery ordering, multi-node HA, authentication, secure deletion, automatic database compaction or universal exactly-once guarantee. Dead-letter listings return the oldest 100 entries; automatic discard/pagination is not included. OS hostname resolution can outlive network watchdog deadlines; use numeric IPs for strictly local operation.
 
 Original project code and documentation are licensed under the [MIT License](LICENSE), copyright (c) 2026 Andrew Yuan. [Third-party components](THIRD_PARTY_NOTICES.md) retain their own licenses.
+
+Public status, repository protections and anonymous-read verification are recorded in the [release check](reviews/public-release/README.md).

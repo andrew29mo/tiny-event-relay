@@ -1,0 +1,22 @@
+{
+  "anonymous_repository_read": true,
+  "visibility": "public",
+  "license": "MIT",
+  "files": [
+    {
+      "path": "README.md",
+      "http_status": 200,
+      "sha256": "59ddfb9531162754bc8f1b0089157f2cae4868b50da8115b35c8381f60e2df6a"
+    },
+    {
+      "path": "LICENSE",
+      "http_status": 200,
+      "sha256": "0a5f48c5847660a83b6372cf47ef20c88bc20a0ae051dcc623707d081d8ad504"
+    },
+    {
+      "path": "reviews/local-validation-public/combined.json",
+      "http_status": 200,
+      "sha256": "7daf3a76f69ce35f75f3758e10b686b692a808c50d7de5add5f8c26c2a03029d"
+    }
+  ]
+}
