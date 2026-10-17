@@ -1,0 +1,2 @@
+colima version v0.10.3
+git commit: 00f6c297e92a82c04a4ab507db0a61435650d7e8

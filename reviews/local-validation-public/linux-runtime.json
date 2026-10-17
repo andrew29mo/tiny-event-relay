@@ -1,0 +1,30 @@
+{
+  "ServerVersion": "29.5.2",
+  "KernelVersion": "6.8.0-117-generic",
+  "Architecture": "aarch64",
+  "OperatingSystem": "Ubuntu 24.04.4 LTS",
+  "NCPU": 4,
+  "MemTotal": 6198628352,
+  "colima_version": "colima version v0.10.3\ngit commit: 00f6c297e92a82c04a4ab507db0a61435650d7e8",
+  "lima_version": "limactl version 2.2.1",
+  "image": {
+    "Id": "sha256:9f3a5949a3d85028fc4bf34e716aed0d490f0ad8d44477e6255a2027932de86a",
+    "Architecture": "arm64",
+    "Os": "linux"
+  },
+  "container": {
+    "NetworkMode": "none",
+    "Privileged": false,
+    "NanoCpus": 4000000000,
+    "Memory": 4294967296,
+    "CapDrop": [
+      "ALL"
+    ],
+    "SecurityOpt": [
+      "no-new-privileges"
+    ],
+    "Init": true,
+    "user": "validator",
+    "mounts": []
+  }
+}

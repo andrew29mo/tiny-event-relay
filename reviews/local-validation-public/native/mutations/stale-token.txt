@@ -1,0 +1,14 @@
+test_stale_claim_token_cannot_override_new_claim (tests.test_relay.StoreFaultTests.test_stale_claim_token_cannot_override_new_claim) ... FAIL
+
+======================================================================
+FAIL: test_stale_claim_token_cannot_override_new_claim (tests.test_relay.StoreFaultTests.test_stale_claim_token_cannot_override_new_claim)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repo>/tests/test_relay.py", line 245, in test_stale_claim_token_cannot_override_new_claim
+    self.assertFalse(store.finish("a",old["token"],"delivered"))
+AssertionError: True is not false
+
+----------------------------------------------------------------------
+Ran 1 test in 0.087s
+
+FAILED (failures=1)

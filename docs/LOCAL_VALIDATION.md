@@ -2,7 +2,7 @@
 
 ```sh
 ./tools/validate-local
-.venv/bin/python -m tools.check_local reviews/local-validation-mit
+.venv/bin/python -m tools.check_local reviews/local-validation-public
 ```
 
 The first command runs a new validation into ignored local storage; the second checks the already committed reviewed evidence. To export a new successful run, use a fresh retention directory, for example:

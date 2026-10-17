@@ -1,6 +1,6 @@
 {
   "status": "passed",
-  "created_utc": "2026-10-17T04:45:31.848280+00:00",
+  "created_utc": "2026-10-17T04:52:58.649477+00:00",
   "source": {
     "sha256": "c27eaf48a81dbcde1b4aafcc4a57f645a42a16d87cb799db774921600f2bf391",
     "files": {
@@ -41,29 +41,29 @@
       "module_args": [
         "tools.test_suite",
         "--output",
-        "<home>/Github/tiny-event-relay/results/local/mit-dual/native/tests"
+        "<home>/Github/tiny-event-relay/results/local/public-dual/native/tests"
       ],
       "exit_code": 0,
       "timed_out": false,
       "interrupted": false,
       "cleanup_required": 0,
       "cleanup_complete": true,
-      "duration_s": 21.158739750000677,
-      "log_sha256": "473f425f09b63e01cfdc9f73aa7079543dca6c4cc817c89907528dc441dad2e3",
+      "duration_s": 21.072833750000427,
+      "log_sha256": "53a3edd2773a3cefca0356d1d96028df7b92aa39e5cd6830ca6dcf7805972d97",
       "passed": true
     },
     {
       "module_args": [
         "tools.mutation_check",
         "--output",
-        "<home>/Github/tiny-event-relay/results/local/mit-dual/native/mutations"
+        "<home>/Github/tiny-event-relay/results/local/public-dual/native/mutations"
       ],
       "exit_code": 0,
       "timed_out": false,
       "interrupted": false,
       "cleanup_required": 0,
       "cleanup_complete": true,
-      "duration_s": 3.1095024999995076,
+      "duration_s": 3.0465119169984973,
       "log_sha256": "33b1a178212fce49122f2b96885eb1abefc3a79437b9a6c3326f67af33f0ac1a",
       "passed": true
     },
@@ -71,7 +71,7 @@
       "module_args": [
         "tools.benchmark",
         "--output",
-        "<home>/Github/tiny-event-relay/results/local/mit-dual/native/benchmark",
+        "<home>/Github/tiny-event-relay/results/local/public-dual/native/benchmark",
         "--execution-label",
         "native-macos"
       ],
@@ -80,21 +80,21 @@
       "interrupted": false,
       "cleanup_required": 0,
       "cleanup_complete": true,
-      "duration_s": 107.41697016600119,
+      "duration_s": 108.90443120800046,
       "log_sha256": "a1eb66866fdb8ada97ae0fa8fb72f1832dcfe87a2efa924641baeb6054b76b7e",
       "passed": true
     },
     {
       "module_args": [
         "tools.check_report",
-        "<home>/Github/tiny-event-relay/results/local/mit-dual/native/benchmark"
+        "<home>/Github/tiny-event-relay/results/local/public-dual/native/benchmark"
       ],
       "exit_code": 0,
       "timed_out": false,
       "interrupted": false,
       "cleanup_required": 0,
       "cleanup_complete": true,
-      "duration_s": 0.14232383300077345,
+      "duration_s": 0.14345741699980863,
       "log_sha256": "af0d8d44449bdd10e121ef4c5595a789cc8e26da5b1d49ca8222f1c89b1fc886",
       "passed": true
     }

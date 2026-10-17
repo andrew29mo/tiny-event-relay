@@ -2,7 +2,7 @@
 
 A small, durable local HTTP event relay. Accept events into a bounded SQLite queue, retain them while the downstream is offline, and resume delivery after a process restart. The accompanying receiver demonstrates transactional deduplication, including the ambiguous case where the receiver commits but its acknowledgment is lost.
 
-**Status:** private experimental MVP. Licensed under [MIT](LICENSE). This is working service code, with separate fault tests and measurement tools. It is not a distributed message broker or a production readiness claim.
+**Status:** public experimental MVP. Licensed under [MIT](LICENSE). This is working service code, with separate fault tests and measurement tools. It is not a distributed message broker or a production readiness claim.
 
 ```text
 producer -> loopback HTTP intake -> SQLite WAL -> one delivery worker -> configured HTTP(S) sink
@@ -71,7 +71,7 @@ The default local cross-platform workflow is:
 
 ```sh
 ./tools/validate-local
-.venv/bin/python -m tools.check_local reviews/local-validation-mit
+.venv/bin/python -m tools.check_local reviews/local-validation-public
 ```
 
 The first command creates a fresh local run; the second rechecks the committed reviewed evidence. To retain a new run for Git, pass a fresh `--retain` directory as described in [the workflow guide](docs/LOCAL_VALIDATION.md).
@@ -82,7 +82,7 @@ One immutable snapshot supplies native macOS and Linux. New source files must be
 
 The VM profile and Docker configuration belong to this project. An already-running owned VM is refused; unrelated profiles are not stopped. Failed commands, timeout, interruption, OOM, missing source/test coverage or failed cleanup cannot pass. Evidence is exported before the owned container is removed; failed recovery export retains the stopped container for inspection. The owned VM is stopped at exit. VM disks/images and verified toolchain caches are deliberately retained for reuse, rather than claiming zero residual disk allocation.
 
-Raw evidence is written under ignored `results/local/dual-*`. `--retain` creates a fresh privacy-normalized directory under `reviews/`, records original digests and rechecks normalized evidence. It never overwrites an existing directory: choose a new `--retain` name for another retained run. The command does not commit, publish or change GitHub visibility. [Dual-platform overview](reviews/local-validation-mit/report.html) · [combined receipt](reviews/local-validation-mit/combined.json).
+Raw evidence is written under ignored `results/local/dual-*`. `--retain` creates a fresh privacy-normalized directory under `reviews/`, records original digests and rechecks normalized evidence. It never overwrites an existing directory: choose a new `--retain` name for another retained run. The command does not commit, publish or change GitHub visibility. [Dual-platform overview](reviews/local-validation-public/report.html) · [combined receipt](reviews/local-validation-public/combined.json).
 
 Single-environment commands remain available:
 
@@ -126,29 +126,29 @@ Each cell is the median of three trial summaries; p95 values are medians of tria
 
 | Scenario | Blob bytes | Accept p95 ms | Commit p95 ms | Unique effects/s | Relay RSS MiB | DB+WAL+SHM MiB | Drain s |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| normal | 256 | 15.03 | 33.67 | 15.12 | 25.77 | 0.082 | — |
-| normal | 16,384 | 16.44 | 33.69 | 15.13 | 25.78 | 0.133 | — |
-| outage | 256 | 29.02 | 5188.29 | 9.92 | 25.83 | 0.098 | 1.87 |
-| outage | 16,384 | 28.18 | 5301.25 | 9.94 | 27.22 | 1.071 | 1.87 |
-| restart | 256 | 29.46 | 5406.09 | 9.76 | 25.77 | 0.098 | 1.89 |
-| restart | 16,384 | 30.06 | 5320.86 | 9.69 | 27.12 | 1.106 | 1.87 |
+| normal | 256 | 16.76 | 35.53 | 15.12 | 25.64 | 0.086 | — |
+| normal | 16,384 | 16.90 | 34.00 | 15.12 | 25.77 | 0.133 | — |
+| outage | 256 | 28.57 | 5192.96 | 9.86 | 25.78 | 0.098 | 1.91 |
+| outage | 16,384 | 28.35 | 5383.26 | 9.71 | 27.12 | 1.071 | 2.01 |
+| restart | 256 | 32.16 | 5384.61 | 9.75 | 25.69 | 0.102 | 1.90 |
+| restart | 16,384 | 30.44 | 5199.93 | 9.61 | 27.12 | 1.071 | 1.96 |
 
 ### Linux inside Colima + container
 
 | Scenario | Blob bytes | Accept p95 ms | Commit p95 ms | Unique effects/s | Relay RSS MiB | DB+WAL+SHM MiB | Drain s |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| normal | 256 | 5.28 | 8.94 | 15.22 | 23.15 | 0.082 | — |
-| normal | 16,384 | 5.66 | 9.42 | 15.22 | 23.19 | 0.137 | — |
-| outage | 256 | 5.28 | 4185.18 | 13.13 | 23.17 | 0.090 | 0.43 |
-| outage | 16,384 | 4.02 | 4210.19 | 13.25 | 24.25 | 1.086 | 0.39 |
-| restart | 256 | 3.75 | 4149.90 | 13.10 | 23.17 | 0.090 | 0.40 |
-| restart | 16,384 | 4.37 | 4155.13 | 13.23 | 24.22 | 1.086 | 0.36 |
+| normal | 256 | 5.86 | 9.03 | 15.21 | 23.16 | 0.078 | — |
+| normal | 16,384 | 5.47 | 9.47 | 15.23 | 23.20 | 0.137 | — |
+| outage | 256 | 3.78 | 4139.33 | 13.26 | 23.20 | 0.090 | 0.39 |
+| outage | 16,384 | 5.30 | 4139.62 | 13.22 | 24.25 | 1.086 | 0.40 |
+| restart | 256 | 3.26 | 4172.04 | 13.22 | 23.16 | 0.090 | 0.35 |
+| restart | 16,384 | 3.94 | 4288.63 | 13.16 | 24.23 | 1.086 | 0.38 |
 
 These are separate environment measurements, not a cross-OS optimization result. Both use Python 3.12.14 and psutil 7.0.0. Native SQLite is 3.53.1 with 15 visible host CPUs; the guest uses SQLite 3.40.1 and four vCPUs. Filesystem, synchronization and memory accounting also differ. The container has a 4 GiB limit; the VM has 6 GiB configured RAM. Guest relay RSS excludes host VM overhead, and apparent DB sizes are not VM image allocation.
 
-native: maximum issue lag **5.31 ms**, maximum sample gap **19.11 ms**.
+native: maximum issue lag **6.75 ms**, maximum sample gap **19.80 ms**.
 
-linux: maximum issue lag **5.27 ms**, maximum sample gap **19.51 ms**.
+linux: maximum issue lag **5.27 ms**, maximum sample gap **17.39 ms**.
 
 The [workflow review](reviews/local-workflow-review/README.md) records the export cleanup fix, controller fault coverage, real cancellation probe and publication boundaries.
 
@@ -174,4 +174,4 @@ Native macOS and Linux-in-Colima measurements are reported separately. Linux rel
 
 Single local process, one worker, one configured destination. No strict delivery ordering, multi-node HA, authentication, secure deletion, automatic database compaction or universal exactly-once guarantee. Dead-letter listings return the oldest 100 entries; automatic discard/pagination is not included. OS hostname resolution can outlive network watchdog deadlines; use numeric IPs for strictly local operation.
 
-The repository remains **Private**. Original project code and documentation are licensed under the [MIT License](LICENSE), copyright (c) 2026 Andrew Yuan. [Third-party components](THIRD_PARTY_NOTICES.md) retain their own licenses. Selecting MIT does not change repository visibility; public release requires explicit authorization.
+Original project code and documentation are licensed under the [MIT License](LICENSE), copyright (c) 2026 Andrew Yuan. [Third-party components](THIRD_PARTY_NOTICES.md) retain their own licenses.

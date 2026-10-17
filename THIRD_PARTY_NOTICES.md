@@ -1,6 +1,6 @@
 # Project license and third-party components
 
-Original tiny-event-relay code, documentation and synthetic test/benchmark data are licensed under [MIT](LICENSE), copyright (c) 2026 Andrew Yuan. Third-party software retains its own copyright, license and notices; this file does not relicense it. Repository visibility remains Private until separately authorized.
+Original tiny-event-relay code, documentation and synthetic test/benchmark data are licensed under [MIT](LICENSE), copyright (c) 2026 Andrew Yuan. Third-party software retains its own copyright, license and notices; this file does not relicense it.
 
 ## Runtime
 

@@ -1,0 +1,1 @@
+{"name":"relay","status":"Stopped","arch":"aarch64","cpus":4,"memory":6442450944,"disk":32212254720,"runtime":"docker"}

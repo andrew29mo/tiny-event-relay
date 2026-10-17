@@ -1,3 +1,7 @@
+# Historical MIT-adoption receipt (6d05ff7)
+
+This records the license adoption while the repository was Private. Public visibility was separately authorized later; current evidence is in `../local-validation-public/`. The MIT grant remains unchanged.
+
 # MIT adoption (2026-10-17)
 
 The owner selected MIT for original tiny-event-relay code, documentation and synthetic event data. Copyright (c) 2026 Andrew Yuan. Repository visibility remains Private; no collaborator or access grant is added.
